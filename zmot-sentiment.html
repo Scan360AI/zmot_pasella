@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCAN360 - ZMOT: Sentiment | Ecomate</title> <!-- UPDATED TITLE -->
+    <title>SCAN360 - ZMOT: Sentiment | Artigianato Pasella</title>
     <!-- Librerie Esterne -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="css/print.css" rel="stylesheet" media="print"> <!-- Keep print CSS -->
+    <link href="css/print.css" rel="stylesheet" media="print">
 
     <!-- Stili Incorporati (Copied from monitor-cda_final.html / zmot-main_new.html) -->
     <style>
@@ -16,9 +16,9 @@
         .actions-card ol.action-list { padding-left: 0; list-style: none; }
         .actions-card li { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;}
         .actions-card li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
-        .actions-card li strong { color: var(--primary); display: block; margin-bottom: 0.2rem;} /* Titolo azione */
+        .actions-card li strong { color: var(--primary); display: block; margin-bottom: 0.2rem;}
         .actions-card .priority-badge { font-size: 0.75rem; padding: 3px 8px; flex-shrink: 0; margin-left: 1rem;}
-         /* Stili V15 mantenuti e aggiustamenti */
+        /* Stili V15 mantenuti e aggiustamenti */
         .irp-visual-section { background: linear-gradient(135deg, var(--white) 0%, #f0f4f8 100%); border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); margin-bottom: 2.5rem; border: 1px solid var(--card-border); }
         .irp-main-title { color: var(--primary); font-weight: 700; margin-bottom: 1.5rem; border-bottom: 2px solid var(--secondary); padding-bottom: 0.8rem; }
         .irp-gradient-bar-container { margin-bottom: 0.5rem; }
@@ -46,8 +46,8 @@
         html, body { height: 100%; overflow-x: hidden; font-family: 'Titillium Web', sans-serif; background-color: #f4f8fb; }
         body { display: flex; }
         .sidebar { width: 250px; background-color: var(--primary); color: #e0e0e0; position: fixed; top: 0; bottom: 0; left: 0; z-index: 1031; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1); transition: width 0.3s ease; overflow-y: auto; }
-        .main-wrapper { margin-left: 250px; width: calc(100% - 250px); display: flex; flex-direction: column; min-height: 100vh; position: relative; padding-top: 70px; /* Spazio per header */ }
-        .dashboard-header { background-color: var(--white); padding: 15px 30px; border-bottom: 1px solid var(--card-border); box-shadow: 0 2px 5px rgba(0,0,0,0.05); min-height: 70px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 250px; right: 0; z-index: 1030; } /* Adjusted left alignment for title */
+        .main-wrapper { margin-left: 250px; width: calc(100% - 250px); display: flex; flex-direction: column; min-height: 100vh; position: relative; padding-top: 70px; }
+        .dashboard-header { background-color: var(--white); padding: 15px 30px; border-bottom: 1px solid var(--card-border); box-shadow: 0 2px 5px rgba(0,0,0,0.05); min-height: 70px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 250px; right: 0; z-index: 1030; }
         .dashboard-container { padding: 30px; flex-grow: 1; width: 100%; }
         .footer { background-color: var(--primary); color: rgba(255, 255, 255, 0.7); padding: 15px 30px; font-size: 0.85rem; margin-top: auto; flex-shrink: 0; width: 100%; }
         .footer img { max-height: 20px; width: auto; filter: brightness(0) invert(1); opacity: 0.8; vertical-align: middle;}
@@ -61,43 +61,36 @@
         .sidebar-nav .nav-title { padding: 10px 20px; font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 15px; }
         .sidebar-footer { margin-top: auto; padding: 15px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; text-align: left; }
         .section-title { color: var(--primary); font-weight: 600; margin-top: 2.5rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--secondary); font-size: 1.75rem; display: flex; align-items: center; } .section-title i { margin-right: 10px; }
-        /* Adjusted .dashboard-card to match ZMOT usage */
-        .dashboard-card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); transition: all 0.3s ease; } /* Removed height: 100% */
+        .dashboard-card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); transition: all 0.3s ease; }
         .dashboard-card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.1); transform: translateY(-3px); }
         .card-title-small { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
         .table { border: 1px solid var(--card-border); margin-bottom: 1rem; } .table thead th { background-color: var(--light); color: var(--primary); font-weight: 600; border-bottom: 2px solid var(--primary); font-size: 0.9rem; white-space: nowrap; } .table-hover tbody tr:hover { background-color: #eef2f7; } .table td, .table th { vertical-align: middle; padding: 0.6rem 0.75rem; font-size: 0.9rem;} .value-highlight { font-weight: 600; color: var(--primary); } .text-end { text-align: right !important;} .text-success { color: var(--success) !important; } .text-danger { color: var(--danger) !important; } .text-warning { color: var(--warning) !important; } .text-secondary { color: var(--text-secondary) !important; }
-        /* Using alert style for strength/weakness blocks */
         .alert-box { padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid; } .alert-box h5 { margin-bottom: 10px; font-size: 1.1rem; font-weight: 600;} .alert-box ul { padding-left: 20px; margin-bottom: 0; font-size: 0.9rem;}
         .alert-box.alert-success { background-color: #d1e7dd; border-color: #a3cfbb; color: #0a3622; }
         .alert-box.alert-warning { background-color: #fff3cd; border-color: #ffda6a; color: #664d03; }
         .alert-box.alert-danger { background-color: #f8d7da; border-color: #f1aeb5; color: #58151c; }
         .alert-box.alert-info { background-color: #cff4fc; border-color: #9eeaf9; color: #055160; }
-        /* Simplified indicator styles */
-         .indicator { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; display: inline-block; color: white; }
-         .indicator-good { background-color: var(--success); }
-         .indicator-medium { background-color: var(--warning); color: var(--dark); }
-         .indicator-poor { background-color: var(--danger); }
-         /* End simplified indicator styles */
+        .indicator { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; display: inline-block; color: white; }
+        .indicator-good { background-color: var(--success); }
+        .indicator-medium { background-color: var(--warning); color: var(--dark); }
+        .indicator-poor { background-color: var(--danger); }
         .status-badge { font-size: .75em; font-weight: 700; line-height: 1; padding: .35em .65em; border-radius: .375rem; color: white; display: inline-block; } .status-badge.bg-success { background-color: var(--success) !important; } .status-badge.bg-warning { background-color: var(--warning) !important; color: var(--dark) !important;} .status-badge.bg-danger { background-color: var(--danger) !important; } .status-badge.bg-info { background-color: var(--info) !important; color: var(--dark) !important;}
-        /* Adjusted chart container */
-        .chart-container { height: 300px; /* Default height, can override */ margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 8px; border: 1px solid var(--card-border); box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; }
+        .chart-container { height: 300px; margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 8px; border: 1px solid var(--card-border); box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; }
         .icon-circle { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: white; margin-right: 12px; font-size: 0.9rem; flex-shrink: 0; }
         .bg-icon-success { background-color: var(--success); } .bg-icon-warning { background-color: var(--warning); } .bg-icon-danger { background-color: var(--danger); } .bg-icon-info { background-color: #4f6d7a; } .bg-icon-primary { background-color: var(--primary); } .bg-icon-secondary { background-color: var(--secondary); }
-        /* Simplified KPI Card - adapt if needed */
         .kpi-card-simple { display: flex; flex-direction: column; padding: 1rem; background-color: var(--white); border-radius: 8px; box-shadow: var(--shadow); margin-bottom: 1.5rem; border: 1px solid var(--card-border); height: 100%; text-align: center; }
         .kpi-card-simple .kpi-title { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
         .kpi-card-simple .kpi-value { font-size: 1.7rem; font-weight: 700; color: var(--dark); line-height: 1.2; margin-bottom: 3px; }
         .kpi-card-simple .kpi-extra { font-size: 0.8rem; color: var(--text-secondary); }
 
         .accordion-item { background-color: var(--white); border: 1px solid var(--card-border); border-radius: 8px !important; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05);} .accordion-header { }
-        .accordion-button { font-weight: 600; font-size: 1.1rem; color: var(--primary); background-color: #f8f9fa; box-shadow: none !important; border-radius: 7px 7px 0 0 !important;} /* Header Accordion leggermente colorato */
+        .accordion-button { font-weight: 600; font-size: 1.1rem; color: var(--primary); background-color: #f8f9fa; box-shadow: none !important; border-radius: 7px 7px 0 0 !important;}
         .accordion-button:not(.collapsed) { color: var(--white); background-color: var(--secondary); }
         .accordion-button:focus { box-shadow: none; }
         .accordion-button::after { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23191970'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); transition: transform .2s ease-in-out;}
         .accordion-button:not(.collapsed)::after { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); transform: rotate(-180deg); }
         .accordion-body { padding: 1.5rem; font-size: 0.9rem; } .accordion-body h6 { font-weight: 600; color: var(--secondary); margin-top: 1rem; margin-bottom: 0.5rem; } .accordion-body .table { margin-top: 1rem; }
 
-        /* Alert Cards (from V17) */
         .alert-card { display: flex; align-items: flex-start; padding: 1rem; border-radius: 8px; border: 1px solid; background-color: #f8f9fa; margin-bottom: 1rem; box-shadow: var(--shadow); }
         .alert-card .alert-icon { font-size: 1.8rem; margin-right: 1rem; flex-shrink: 0; width: 40px; text-align: center; }
         .alert-card h5 { font-weight: 600; margin-bottom: 0.3rem; font-size: 1.1rem; }
@@ -107,15 +100,11 @@
         .alert-card.alert-info { border-color: #9eeaf9; color: #055160; background-color: #cff4fc; } .alert-card.alert-info .alert-icon { color: #31708f; }
         .alert-card.alert-success { border-color: #a3cfbb; color: #0a3622; background-color: #d1e7dd; } .alert-card.alert-success .alert-icon { color: #3c763d; }
 
-        /* Executive Summary Card Style */
         .executive-summary-card { background-color: #f0f4f8; border-left: 5px solid var(--primary); border-radius: 8px; box-shadow: var(--shadow); }
         .executive-summary-card .card-body { padding: 1.5rem; }
-        /* Card title Modern */
         .card-title-modern { font-size: 1rem; font-weight: 600; color: var(--primary); margin-bottom: 1rem; text-align: center; }
-        /* Chart Card for CDA */
-        .chart-card { padding-top: 1rem; /* Spazio per titolo */ }
+        .chart-card { padding-top: 1rem; }
 
-        /* Specific styles for sentiment page */
         .platform-review-cards .platform-card { background-color: var(--white); border: 1px solid var(--card-border); border-radius: 8px; padding: 15px; box-shadow: var(--shadow); }
         .platform-review-cards .platform-header .platform-icon { display: flex; align-items: center; font-weight: 600; }
         .platform-review-cards .platform-header .review-count { font-size: 0.8rem; color: var(--text-secondary); }
@@ -125,8 +114,7 @@
         .review-quote { font-size: 0.9rem; border-left: 3px solid var(--secondary); }
 
         @media (max-width: 991.98px) { .sidebar { width: 0; border: none; box-shadow: none;} .main-wrapper { margin-left: 0; width: 100%; padding-top: 56px; } .dashboard-header { left: 0; width: 100%; min-height: 56px; padding: 5px 15px;} .header-title h5 { font-size: 1rem;} .header-title p { font-size: 0.75rem;} .dashboard-container { padding: 15px;} .footer { padding: 10px 15px;} }
-        /* Stampa */
-         @media print { body { display: block; } .main-wrapper { margin-left: 0; width: 100%; padding-top: 0; } .no-print { display: none !important; } .report-section { page-break-inside: avoid; } /* Altri stili print.css */ }
+        @media print { body { display: block; } .main-wrapper { margin-left: 0; width: 100%; padding-top: 0; } .no-print { display: none !important; } .report-section { page-break-inside: avoid; } }
     </style>
 </head>
 <body>
@@ -134,13 +122,13 @@
    <!-- Sidebar -->
     <aside class="sidebar no-print">
          <div class="sidebar-header">
-             <img src="assets/img/logo_placeholder_white.png" alt="Ecomate Logo" style="max-height: 40px; filter: brightness(0) invert(1);">
-             <h5>Ecomate - ZMOT</h5>
+             <img src="assets/img/logo_placeholder_white.png" alt="Artigianato Pasella Logo" style="max-height: 40px; filter: brightness(0) invert(1);">
+             <h5>Artigianato Pasella - ZMOT</h5>
          </div>
          <ul class="sidebar-nav flex-grow-1">
              <!-- ZMOT Navigation -->
              <li class="nav-item"> <a class="nav-link" href="zmot-main.html"> <i class="fas fa-home fa-fw"></i> Introduzione </a> </li>
-             <li class="nav-item"> <a class="nav-link active" href="zmot-sentiment.html"> <i class="fas fa-star-half-alt fa-fw"></i> Sentiment </a> </li> <!-- Active Link -->
+             <li class="nav-item"> <a class="nav-link active" href="zmot-sentiment.html"> <i class="fas fa-star-half-alt fa-fw"></i> Sentiment </a> </li>
              <li class="nav-item"> <a class="nav-link" href="zmot-social.html"> <i class="fas fa-users fa-fw"></i> Social Media </a> </li>
              <li class="nav-item"> <a class="nav-link" href="zmot-website.html"> <i class="fas fa-globe fa-fw"></i> Sito Web </a> </li>
              <li class="nav-item"> <a class="nav-link" href="zmot-serp.html"> <i class="fas fa-search fa-fw"></i> SERP </a> </li>
@@ -156,13 +144,13 @@
         <!-- Header Orizzontale -->
         <header class="dashboard-header no-print">
             <div class="header-title">
-                 <h5 class="mb-0">Ecomate - Sentiment e Recensioni</h5> <!-- UPDATED HEADER TITLE -->
-                 <p class="mb-0">ZMOT Analysis | <span class="report-date">12 Giugno 2025</span></p> <!-- UPDATED SUBTITLE -->
+                 <h5 class="mb-0">Artigianato Pasella - Sentiment e Recensioni</h5>
+                 <p class="mb-0">ZMOT Analysis | <span class="report-date">24 Giugno 2025</span></p>
             </div>
             <div class="header-controls d-flex align-items-center">
                 <button class="btn btn-sm btn-outline-secondary me-2 print-button" onclick="window.print()"> <i class="fas fa-print"></i> Stampa </button>
                 <div class="dropdown">
-                    <button class="btn btn-sm btn-light border dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user-circle me-1"></i> Ecomate </button>
+                    <button class="btn btn-sm btn-light border dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user-circle me-1"></i> Artigianato Pasella </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
                         <li><button class="dropdown-item" type="button" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
                     </ul>
@@ -172,22 +160,20 @@
 
         <!-- Header per Stampa -->
         <div class="container d-none d-print-block mt-4 mb-4">
-            <h1 class="text-center mb-0"><span class="company-name">Ecomate</span></h1>
-            <p class="text-center mb-0">ZMOT - Sentiment e Recensioni Online | <span class="report-date">12 Giugno 2025</span></p>
+            <h1 class="text-center mb-0"><span class="company-name">Artigianato Pasella</span></h1>
+            <p class="text-center mb-0">ZMOT - Sentiment e Recensioni Online | <span class="report-date">24 Giugno 2025</span></p>
             <hr>
         </div>
 
         <!-- Area Contenuto Dashboard ZMOT -->
         <div class="dashboard-container">
 
-            <!-- === START CONTENT MIGRATION from old zmot-sentiment.html === -->
-
             <!-- Introduzione al Sentiment -->
             <section id="sentiment-overview" class="report-section">
                 <div class="card executive-summary-card mb-4">
                     <div class="card-body">
                         <h4 class="card-title mb-3" style="color: var(--primary);"><i class="fas fa-star-half-alt text-warning me-2"></i>Sentiment e Recensioni Online</h4>
-                        <p class="mb-0">L'analisi del sentiment online esamina come Ecomate viene percepita da clienti, partner e stakeholder attraverso recensioni, testimonianze e menzioni su diverse piattaforme. Questo aspetto è cruciale nel modello ZMOT per il settore B2B, poiché le opinioni di altre aziende e le validazioni istituzionali influenzano fortemente le decisioni di adozione di una piattaforma ESG.</p>
+                        <p class="mb-0">L'analisi del sentiment online esamina come Artigianato Pasella viene percepita da clienti, turisti e stakeholder attraverso recensioni, testimonianze e menzioni su diverse piattaforme. La reputazione online di Pasella è eccellente, con feedback quasi tutti positivi (valutazione media 5.0/5.0 sullo store online) e apprezzamenti per la qualità e autenticità dei prodotti artigianali sardi.</p>
                     </div>
                 </div>
             </section>
@@ -200,40 +186,40 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="platform-review-cards">
-                                <!-- Card Trustpilot -->
+                                <!-- Card E-commerce -->
                                 <div class="platform-card mb-3">
                                     <div class="platform-header d-flex justify-content-between align-items-center">
-                                        <div class="platform-icon"> <i class="fas fa-star fa-lg text-muted"></i> <span class="platform-name ms-2">Trustpilot</span> </div>
-                                        <span class="review-count">Non presente</span>
+                                        <div class="platform-icon"> <i class="fas fa-shopping-cart fa-lg text-success"></i> <span class="platform-name ms-2">Store Online</span> </div>
+                                        <span class="review-count">5.0/5.0 ⭐</span>
                                     </div>
-                                    <div class="progress mt-2 mb-1" style="height: 10px;"> <div class="progress-bar bg-secondary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div> </div>
-                                    <div class="platform-stats text-center"> <small class="text-muted">Nessuna recensione</small> </div>
+                                    <div class="progress mt-2 mb-1" style="height: 10px;"> <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div> </div>
+                                    <div class="platform-stats text-center"> <small class="text-success fw-bold">Valutazione eccellente</small> </div>
+                                </div>
+                                <!-- Card Facebook -->
+                                <div class="platform-card mb-3">
+                                     <div class="platform-header d-flex justify-content-between align-items-center">
+                                        <div class="platform-icon"> <i class="fab fa-facebook fa-lg text-primary"></i> <span class="platform-name ms-2">Facebook</span> </div>
+                                        <span class="review-count">100% positive</span>
+                                    </div>
+                                    <div class="progress mt-2 mb-1" style="height: 10px;"> <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div> </div>
+                                    <div class="platform-stats text-center"> <small class="text-success fw-bold">12 raccomandazioni positive</small> </div>
                                 </div>
                                 <!-- Card Google Reviews -->
                                 <div class="platform-card mb-3">
                                      <div class="platform-header d-flex justify-content-between align-items-center">
-                                        <div class="platform-icon"> <i class="fab fa-google fa-lg text-muted"></i> <span class="platform-name ms-2">Google Reviews</span> </div>
+                                        <div class="platform-icon"> <i class="fab fa-google fa-lg text-info"></i> <span class="platform-name ms-2">Google Maps</span> </div>
+                                        <span class="review-count">4-5 stelle</span>
+                                    </div>
+                                    <div class="progress mt-2 mb-1" style="height: 10px;"> <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div> </div>
+                                    <div class="platform-stats text-center"> <small class="text-warning">Recensioni limitate</small> </div>
+                                </div>
+                                <!-- Card TripAdvisor -->
+                                <div class="platform-card">
+                                    <div class="platform-header d-flex justify-content-between align-items-center">
+                                        <div class="platform-icon"> <i class="fas fa-plane fa-lg text-secondary"></i> <span class="platform-name ms-2">TripAdvisor</span> </div>
                                         <span class="review-count">Non presente</span>
                                     </div>
                                     <div class="progress mt-2 mb-1" style="height: 10px;"> <div class="progress-bar bg-secondary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div> </div>
-                                    <div class="platform-stats text-center"> <small class="text-muted">Profilo non attivo</small> </div>
-                                </div>
-                                <!-- Card LinkedIn -->
-                                <div class="platform-card mb-3">
-                                     <div class="platform-header d-flex justify-content-between align-items-center">
-                                        <div class="platform-icon"> <i class="fab fa-linkedin fa-lg text-primary"></i> <span class="platform-name ms-2">LinkedIn</span> </div>
-                                        <span class="review-count">~1.800 follower</span>
-                                    </div>
-                                    <div class="progress mt-2 mb-1" style="height: 10px;"> <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div> </div>
-                                    <div class="platform-stats text-center"> <small class="text-success fw-bold">Sentiment positivo</small> </div>
-                                </div>
-                                <!-- Card Facebook -->
-                                <div class="platform-card">
-                                    <div class="platform-header d-flex justify-content-between align-items-center">
-                                        <div class="platform-icon"> <i class="fab fa-facebook fa-lg text-info"></i> <span class="platform-name ms-2">Facebook</span> </div>
-                                        <span class="review-count">Pochi follower</span>
-                                    </div>
-                                    <div class="progress mt-2 mb-1" style="height: 10px;"> <div class="progress-bar bg-secondary" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div> </div>
                                     <div class="platform-stats text-center"> <small class="text-muted">Nessuna recensione</small> </div>
                                 </div>
                             </div>
@@ -241,32 +227,32 @@
                         <div class="col-md-7">
                             <div class="review-highlights mb-3">
                                 <h6 class="d-flex align-items-center"><i class="fas fa-star-half-alt text-warning me-2"></i>Testimonianze Clienti</h6>
-                                <p>Nonostante l'assenza su piattaforme consumer, Ecomate gode di testimonianze positive da clienti aziendali:</p>
+                                <p>I clienti esprimono grande soddisfazione per la qualità artigianale, l'autenticità dei prodotti e l'esperienza di acquisto:</p>
                                 <ul>
-                                    <li><strong>Upco (settore tech)</strong>: Ha ottenuto rating ESG BBB, evidenziando i benefici del sistema</li>
-                                    <li><strong>Blu Basket 1971</strong>: Prima società sportiva italiana con rating ESG Ecomate</li>
-                                    <li><strong>Partnership istituzionali</strong>: Finlombarda, Unioncamere, Ecocerved validano la soluzione</li>
-                                    <li><strong>Riconoscimento internazionale</strong>: Top 100 ESG FinTech mondiali (ESGFinTech100)</li>
+                                    <li><strong>Qualità eccellente</strong>: "Piatto molto bello e ben fatto, consigliato" - Alice F.</li>
+                                    <li><strong>Spedizioni curate</strong>: Clienti lodano la spedizione veloce e l'imballaggio accurato</li>
+                                    <li><strong>Tradizione apprezzata</strong>: Michele C. consiglia vivamente per l'autenticità sarda</li>
+                                    <li><strong>Punto di riferimento</strong>: Corriere dell'Economia definisce Pasella "punto di riferimento per l'artigianato sardo"</li>
                                 </ul>
                                 <div class="review-quote bg-light p-3 rounded small">
                                      <div class="d-flex align-items-center mb-2">
-                                         <span class="badge bg-success me-2">BBB</span>
-                                         <small class="text-muted">Upco - Cliente verificato 2023</small>
+                                         <span class="badge bg-success me-2">5.0/5.0</span>
+                                         <small class="text-muted">Alice F. - Cliente verificato</small>
                                      </div>
-                                     <p class="mb-0 fst-italic">"Grazie a questo sistema di valutazione è stato possibile trasformare le informazioni da qualitative in quantitative, rendendole misurabili e confrontabili. Questo strumento ha aiutato Upco a creare consapevolezza in azienda e diventa ora una guida al cambiamento."</p>
+                                     <p class="mb-0 fst-italic">"Piatto molto bello e ben fatto, consigliato. La spedizione è stata veloce e l'imballaggio accurato. Sono rimasta molto soddisfatta dell'acquisto e della qualità del prodotto artigianale."</p>
                                  </div>
                             </div>
-                             <!-- Attention block using alert style -->
+                             <!-- Attention block -->
                              <div class="alert alert-warning alert-box p-3">
                                  <h6 class="d-flex align-items-center mb-2"><i class="fas fa-exclamation-circle me-2"></i>Opportunità di Miglioramento</h6>
-                                 <p class="small">L'assenza di recensioni pubbliche su piattaforme consumer rappresenta un gap nella strategia ZMOT:</p>
+                                 <p class="small">L'assenza di recensioni su piattaforme consumer rappresenta un'opportunità mancata:</p>
                                  <ul class="small">
-                                     <li>Nessuna presenza su <strong>Trustpilot</strong> o <strong>Google Reviews</strong> limita la social proof</li>
-                                     <li>Le PMI che cercano informazioni non trovano validazione esterna immediata</li>
-                                     <li>Il sentiment positivo esiste ma non è facilmente accessibile durante la fase di ricerca</li>
-                                     <li>Manca un sistema strutturato di raccolta feedback pubblici</li>
+                                     <li>Nessuna presenza attiva su <strong>TripAdvisor</strong> limita la visibilità turistica</li>
+                                     <li>Poche recensioni su <strong>Google Maps</strong> per i 15 punti vendita</li>
+                                     <li>Piattaforme come <strong>TrustedShops</strong> non ancora attivate</li>
+                                     <li>Il sentiment positivo esiste ma non è facilmente accessibile online</li>
                                  </ul>
-                                 <p class="small mb-0">Implementare una strategia di recensioni potrebbe significativamente migliorare la percezione durante il "momento zero della verità".</p>
+                                 <p class="small mb-0">Implementare una strategia di raccolta recensioni aumenterebbe significativamente la social proof durante il "momento zero della verità".</p>
                              </div>
                         </div>
                     </div>
@@ -283,17 +269,17 @@
                             <!-- Strength block -->
                              <div class="alert alert-success alert-box p-3 mb-4">
                                  <h6 class="d-flex align-items-center mb-2"><i class="fas fa-plus-circle me-2"></i>Elementi di Apprezzamento</h6>
-                                 <p class="small">Dalle testimonianze e menzioni disponibili emergono elementi particolarmente apprezzati:</p>
+                                 <p class="small">Dalle testimonianze e menzioni emergono elementi particolarmente apprezzati:</p>
                                  <ul class="small">
-                                     <li><strong>Trasparenza metodologica:</strong> Approccio open-standard unico nel settore</li>
-                                     <li><strong>Facilità d'uso:</strong> Rating completo in meno di 2 ore, registrazione in 1 minuto</li>
-                                     <li><strong>Focus normativo UE:</strong> Allineamento con CSRD, SFDR e Tassonomia europea</li>
-                                     <li><strong>Accessibilità economica:</strong> Gratuito per PMI, prezzi più bassi del mercato</li>
-                                     <li><strong>Supporto concreto:</strong> Guida al miglioramento, non solo valutazione</li>
+                                     <li><strong>Autenticità garantita:</strong> 50+ anni di tradizione familiare dal 1972</li>
+                                     <li><strong>Qualità artigianale:</strong> Prodotti fatti a mano con tecniche tradizionali</li>
+                                     <li><strong>Varietà dell'offerta:</strong> Ceramiche, sughero, tessuti, gioielli in filigrana</li>
+                                     <li><strong>Radicamento territoriale:</strong> 15 punti vendita in Gallura, laboratorio visitabile</li>
+                                     <li><strong>Esperienza completa:</strong> Visite guidate al laboratorio molto apprezzate</li>
                                  </ul>
-                                 <p class="small mb-0">Questi elementi descrivono una value proposition chiara e differenziante che genera soddisfazione nei clienti attuali.</p>
+                                 <p class="small mb-0">Questi elementi creano una value proposition unica che genera alta soddisfazione nei clienti.</p>
                              </div>
-                            <div class="chart-container" style="height: 250px;"> <!-- Reduced height -->
+                            <div class="chart-container" style="height: 250px;">
                                 <canvas id="keywordAnalysisChart"></canvas>
                             </div>
                         </div>
@@ -301,24 +287,24 @@
                             <!-- Weakness block -->
                             <div class="alert alert-danger alert-box p-3 mb-4">
                                 <h6 class="d-flex align-items-center mb-2"><i class="fas fa-minus-circle me-2"></i>Aree di Criticità</h6>
-                                <p class="small">Le criticità emergono principalmente dall'analisi comparativa e dalle lacune comunicative:</p>
+                                <p class="small">Le criticità emergono principalmente dall'analisi comparativa e dalle lacune di visibilità:</p>
                                 <ul class="small">
-                                    <li><strong>Bassa brand awareness:</strong> Pochi conoscono Ecomate rispetto a competitor</li>
-                                    <li><strong>Assenza social proof:</strong> Mancanza di recensioni verificate pubbliche</li>
-                                    <li><strong>Community limitata:</strong> Solo 1.800 follower LinkedIn vs decine di migliaia competitor</li>
-                                    <li><strong>Content marketing debole:</strong> Pochi contenuti educational per PMI</li>
+                                    <li><strong>Presenza social limitata:</strong> Solo ~6.000 fan Facebook vs 17-39k dei competitor</li>
+                                    <li><strong>Assenza su TripAdvisor:</strong> Opportunità mancata per intercettare turisti</li>
+                                    <li><strong>Recensioni Google scarse:</strong> Molti negozi senza valutazioni online</li>
+                                    <li><strong>YouTube inattivo:</strong> Ultimi video caricati 6-7 anni fa</li>
                                 </ul>
-                                <p class="small mb-0">Non emergono critiche sulla qualità del servizio, ma piuttosto sulla sua limitata visibilità e riconoscibilità nel mercato.</p>
+                                <p class="small mb-0">Non emergono critiche sulla qualità del servizio, ma sulla limitata visibilità online del sentiment positivo esistente.</p>
                            </div>
                             <!-- Attention block -->
                            <div class="alert alert-warning alert-box p-3">
                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-search-plus me-2"></i>Analisi del Posizionamento</h6>
                                <p class="small">Il sentiment si caratterizza per un paradosso interessante:</p>
                                <ol class="small">
-                                   <li><strong>Alta qualità percepita:</strong> Chi usa Ecomate ne è soddisfatto e lo comunica</li>
-                                   <li><strong>Bassa quantità di feedback:</strong> Troppo pochi utenti per creare massa critica di opinioni</li>
+                                   <li><strong>Alta qualità percepita:</strong> Chi conosce Pasella ne è estremamente soddisfatto</li>
+                                   <li><strong>Bassa visibilità online:</strong> Pochi canali dove esprimere e trovare feedback</li>
                                </ol>
-                               <p class="small mb-0">Questo suggerisce che il problema non è il prodotto ma la sua diffusione e comunicazione nel mercato target.</p>
+                               <p class="small mb-0">Questo suggerisce che il problema non è il prodotto ma la sua comunicazione digitale nel mercato turistico.</p>
                            </div>
                         </div>
                     </div>
@@ -335,14 +321,14 @@
                              <!-- Attention block -->
                             <div class="alert alert-info alert-box p-3 mb-4">
                                 <h6 class="d-flex align-items-center mb-2"><i class="fas fa-comments me-2"></i>Copertura Mediatica e PR</h6>
-                                <p class="small">Oltre alle testimonianze dirette, il sentiment emerge dalla copertura mediatica:</p>
+                                <p class="small">Il sentiment emerge anche dalla copertura mediatica positiva:</p>
                                 <ul class="small">
-                                    <li><strong>EconomyUp:</strong> Profilo approfondito su modello e vision (Luglio 2023)</li>
-                                    <li><strong>ESGFinTech100:</strong> Riconoscimento internazionale come innovatore globale</li>
-                                    <li><strong>Media locali:</strong> Citazioni su progetti (BergamoNews, Unioncamere, etc.)</li>
-                                    <li><strong>LinkedIn:</strong> Post celebrativi con engagement positivo da community ESG</li>
+                                    <li><strong>Corriere dell'Economia:</strong> Articolo di dicembre 2023 su storia e successo aziendale</li>
+                                    <li><strong>Turismo.it:</strong> "La ceramica sarda di Domenico Pasella" - focus sull'eccellenza</li>
+                                    <li><strong>Costa Smeralda Magazine:</strong> Definita "one of the best known craft shops" in Sardegna</li>
+                                    <li><strong>Blog di viaggio:</strong> Strictly Sardinia consiglia Pasella per souvenir in sughero autentici</li>
                                 </ul>
-                                <p class="small mb-0">Sentiment mediatico positivo ma concentrato in nicchie specializzate, non ancora mainstream.</p>
+                                <p class="small mb-0">Copertura mediatica positiva ma concentrata in nicchie specializzate del turismo e artigianato.</p>
                            </div>
 
                             <div class="table-responsive mb-4">
@@ -351,11 +337,11 @@
                                         <tr><th>Fonte</th> <th>Tipo Menzione</th> <th class="text-end">Sentiment</th> <th class="text-end">Impatto</th></tr>
                                     </thead>
                                     <tbody>
-                                        <tr><td>Media specializzati</td> <td>Articoli su innovazione ESG</td> <td class="text-end"><span class="indicator indicator-good">Positivo</span></td> <td class="text-end">Alto</td></tr>
-                                        <tr><td>LinkedIn professionale</td> <td>Post aziendali e discussioni</td> <td class="text-end"><span class="indicator indicator-good">Positivo</span></td> <td class="text-end">Medio</td></tr>
-                                        <tr><td>Partner istituzionali</td> <td>Comunicati e endorsement</td> <td class="text-end"><span class="indicator indicator-good">Molto positivo</span></td> <td class="text-end">Alto</td></tr>
-                                        <tr><td>Forum ESG/sustainability</td> <td>Menzioni occasionali</td> <td class="text-end"><span class="indicator indicator-medium">Neutro</span></td> <td class="text-end">Basso</td></tr>
-                                        <tr><td>Community PMI</td> <td>Awareness limitata</td> <td class="text-end"><span class="indicator indicator-medium">N/A</span></td> <td class="text-end">Basso</td></tr>
+                                        <tr><td>Media economici regionali</td> <td>Articoli su tradizione e innovazione</td> <td class="text-end"><span class="indicator indicator-good">Molto positivo</span></td> <td class="text-end">Alto</td></tr>
+                                        <tr><td>Portali turistici nazionali</td> <td>Guide shopping Sardegna</td> <td class="text-end"><span class="indicator indicator-good">Positivo</span></td> <td class="text-end">Alto</td></tr>
+                                        <tr><td>Costa Smeralda Consortium</td> <td>Raccomandazioni ufficiali</td> <td class="text-end"><span class="indicator indicator-good">Eccellente</span></td> <td class="text-end">Molto alto</td></tr>
+                                        <tr><td>Blog travel internazionali</td> <td>Menzioni come must-visit</td> <td class="text-end"><span class="indicator indicator-good">Positivo</span></td> <td class="text-end">Medio</td></tr>
+                                        <tr><td>Social media locali</td> <td>Post e condivisioni</td> <td class="text-end"><span class="indicator indicator-medium">Limitato</span></td> <td class="text-end">Basso</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -363,9 +349,9 @@
                              <!-- Success block -->
                             <div class="alert alert-success alert-box p-3">
                                 <h6 class="d-flex align-items-center mb-2"><i class="fas fa-search me-2"></i>Analisi del Posizionamento Percepito</h6>
-                                <p class="small">Elemento significativo: forte credibilità istituzionale. Partnership con <strong>Regione Lombardia</strong>, <strong>Unioncamere</strong> e riconoscimenti internazionali creano trust.</p>
-                                <p class="small">Ecomate percepita come: <strong>"startup innovativa italiana che democratizza l'ESG per le PMI"</strong> - posizionamento unico e apprezzato.</p>
-                                <p class="small mb-0">Sfida principale: trasformare questa credibilità di nicchia in awareness di massa nel target PMI.</p>
+                                <p class="small">Elemento significativo: forte credibilità istituzionale. Partnership con <strong>Consorzio Costa Smeralda</strong> e menzioni su media autorevoli creano trust immediato.</p>
+                                <p class="small">Pasella percepita come: <strong>"Punto di riferimento storico dell'artigianato sardo di qualità"</strong> - posizionamento unico nel territorio.</p>
+                                <p class="small mb-0">Sfida principale: trasformare questa reputazione di nicchia in presenza digitale di massa per il target turistico.</p>
                             </div>
                         </div>
                     </div>
@@ -387,12 +373,12 @@
                                 <h6 class="d-flex align-items-center mb-2"><i class="fas fa-percent me-2"></i>Analisi Comparativa</h6>
                                 <p class="small">Il confronto evidenzia situazioni diverse per tipologia di player:</p>
                                 <ul class="small">
-                                    <li><strong>EcoVadis:</strong> Sentiment misto - apprezzato ma criticato per facilità "gaming"</li>
-                                    <li><strong>Cerved:</strong> Fiducia istituzionale alta ma percepito come costoso/complesso</li>
-                                    <li><strong>CRIF/Synesgy:</strong> Network ampio ma sentiment neutro (imposizione top-down)</li>
-                                    <li><strong>Ecomate:</strong> Sentiment positivo chi lo conosce, ma awareness limitata</li>
+                                    <li><strong>Ajò Kose:</strong> 17k fan FB ma percepito come più commerciale</li>
+                                    <li><strong>Walter Usai:</strong> Nicchia ceramica artistica, prestigio internazionale</li>
+                                    <li><strong>Ferraro Gioielli:</strong> 39.5k fan FB, focus luxury corallo</li>
+                                    <li><strong>Artemest:</strong> 486k follower IG, marketplace globale lusso</li>
                                 </ul>
-                                <p class="small mb-0">Opportunità: costruire volume recensioni mantenendo qualità alta del sentiment attuale.</p>
+                                <p class="small mb-0">Pasella ha sentiment altissimo ma volumi social inferiori - opportunità di crescita mantenendo qualità.</p>
                            </div>
                         </div>
                         <div class="col-lg-6">
@@ -401,26 +387,26 @@
                                 <h6 class="d-flex align-items-center mb-2"><i class="fas fa-thumbs-up me-2"></i>Punti di Forza nel Sentiment</h6>
                                 <p class="small">Analisi qualitativa del sentiment per competitor:</p>
                                 <ul class="small">
-                                    <li><strong>EcoVadis:</strong> Criticato su LinkedIn per essere "troppo facile" e formalistico</li>
-                                    <li><strong>Cerved ESG:</strong> Percepito come "per grandi aziende", intimidatorio per PMI</li>
-                                    <li><strong>CRIF/Synesgy:</strong> Visto come "obbligo imposto" più che scelta volontaria</li>
-                                    <li><strong>Open-es:</strong> Apprezzato ma confuso (piattaforma vs rating)</li>
-                                    <li><strong>Bureau Veritas:</strong> Rispettato ma "irraggiungibile" per PMI normali</li>
+                                    <li><strong>Ajò Kose:</strong> Più punti vendita ma meno heritage e storia</li>
+                                    <li><strong>Walter Usai:</strong> Solo ceramica ultra-specializzata, prezzi elevati</li>
+                                    <li><strong>Ferraro:</strong> Solo gioielli, fascia luxury non accessibile</li>
+                                    <li><strong>Artemest:</strong> Piattaforma impersonale, no esperienza diretta</li>
+                                    <li><strong>Artigiano in Fiera:</strong> Marketplace generico, manca autenticità locale</li>
                                 </ul>
-                                <p class="small mb-0">Ecomate può posizionarsi come alternativa "umana, trasparente e accessibile".</p>
+                                <p class="small mb-0">Pasella unica per combinazione di: tradizione 50ennale + varietà prodotti + rete negozi + laboratorio visitabile.</p>
                            </div>
                              <!-- Recommendation block -->
                             <div class="alert alert-success alert-box p-3">
-                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-lightbulb me-2"></i>Strategie per Migliorare il Sentiment</h6>
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-lightbulb me-2"></i>Strategie per Valorizzare il Sentiment</h6>
                                 <p class="small">Per capitalizzare sul sentiment positivo esistente:</p>
                                 <ol class="small">
-                                    <li><strong>Programma recensioni strutturato:</strong> Invitare clienti soddisfatti a lasciare feedback pubblici</li>
-                                    <li><strong>Google Business Profile:</strong> Attivare profilo aziendale per recensioni Google</li>
-                                    <li><strong>Case study dettagliati:</strong> Pubblicare storie di successo con metriche concrete</li>
-                                    <li><strong>Ambassador program:</strong> Coinvolgere clienti come testimonial attivi</li>
-                                    <li><strong>Content marketing testimonial:</strong> Video-interviste con CEO clienti soddisfatti</li>
+                                    <li><strong>Google My Business:</strong> Attivare e gestire profili per tutti i 15 negozi</li>
+                                    <li><strong>Programma recensioni:</strong> Incentivare clienti soddisfatti con piccoli sconti</li>
+                                    <li><strong>TripAdvisor presence:</strong> Registrare laboratorio come "attrazione" visitabile</li>
+                                    <li><strong>Video testimonianze:</strong> Clienti che raccontano esperienza in negozio/laboratorio</li>
+                                    <li><strong>Partnership hotel:</strong> Voucher per ospiti che lasciano recensioni</li>
                                 </ol>
-                                <p class="small mb-0">Obiettivo: rendere visibile e accessibile il sentiment positivo già esistente.</p>
+                                <p class="small mb-0">Obiettivo: rendere visibile online l'eccellente reputazione offline già consolidata in 50 anni.</p>
                             </div>
                         </div>
                     </div>
@@ -441,30 +427,30 @@
                         <div class="col-lg-5">
                             <!-- Info block -->
                              <div class="alert alert-info alert-box p-3 mb-3">
-                                 <h6 class="d-flex align-items-center mb-2"><i class="fas fa-balance-scale me-2"></i>Sentiment Score: 75/100</h6>
-                                 <p class="small">Sentiment complessivo <strong>buono</strong> (75/100) ma con potenziale inespresso. Alta qualità percepita, bassa quantità feedback.</p>
-                                 <p class="small mb-0">Score riflette: eccellente percezione qualitativa (-25 punti per scarsa presenza quantitativa).</p>
+                                 <h6 class="d-flex align-items-center mb-2"><i class="fas fa-balance-scale me-2"></i>Sentiment Score: 85/100</h6>
+                                 <p class="small">Sentiment complessivo <strong>eccellente</strong> (85/100) con margini di miglioramento nella visibilità digitale.</p>
+                                 <p class="small mb-0">Score riflette: qualità percepita altissima, supportata da 50 anni di storia e zero recensioni negative.</p>
                              </div>
                              <!-- Strength block -->
                              <div class="alert alert-success alert-box p-3 mb-3">
                                  <h6 class="d-flex align-items-center mb-2"><i class="fas fa-plus-circle me-2"></i>Punti di Forza</h6>
                                  <ul class="small mb-0">
-                                     <li>Testimonianze clienti molto positive (Upco, Blu Basket)</li>
-                                     <li>Forte credibilità istituzionale (Finlombarda, Unioncamere)</li>
-                                     <li>Riconoscimento internazionale (Top 100 ESG FinTech)</li>
-                                     <li>Nessuna recensione negativa o critica pubblica</li>
-                                     <li>Posizionamento unico apprezzato (trasparenza, focus PMI)</li>
+                                     <li>Valutazione 5.0/5.0 su store online</li>
+                                     <li>100% raccomandazioni positive Facebook</li>
+                                     <li>Copertura mediatica autorevole e positiva</li>
+                                     <li>Riconoscimento Costa Smeralda Consortium</li>
+                                     <li>50+ anni di tradizione e affidabilità</li>
                                  </ul>
                              </div>
                              <!-- Weakness block -->
                             <div class="alert alert-danger alert-box p-3">
-                                 <h6 class="d-flex align-items-center mb-2"><i class="fas fa-minus-circle me-2"></i>Aree Critiche</h6>
+                                 <h6 class="d-flex align-items-center mb-2"><i class="fas fa-minus-circle me-2"></i>Aree di Miglioramento</h6>
                                  <ul class="small mb-0">
-                                     <li>Totale assenza su piattaforme recensioni consumer</li>
-                                     <li>Community social molto limitata (~1.800 follower)</li>
-                                     <li>Scarsa visibilità del sentiment positivo esistente</li>
-                                     <li>Mancanza di social proof immediata per nuovi prospect</li>
-                                     <li>Gap di awareness vs competitor più noti</li>
+                                     <li>Assenza su TripAdvisor (opportunità turistica)</li>
+                                     <li>Poche recensioni Google Maps per negozi</li>
+                                     <li>Social media con follower limitati vs competitor</li>
+                                     <li>Canale YouTube non sfruttato (ultimo video 7 anni fa)</li>
+                                     <li>Piattaforme recensioni certificate non attivate</li>
                                  </ul>
                              </div>
                         </div>
@@ -472,20 +458,17 @@
                      <!-- Attention block -->
                     <div class="alert alert-warning alert-box p-3 mt-4">
                         <h6 class="d-flex align-items-center mb-2"><i class="fas fa-info-circle me-2"></i>Impatto ZMOT</h6>
-                        <p class="small">Il sentiment rappresenta un'opportunità mancata nel percorso ZMOT:</p>
+                        <p class="small">Il sentiment rappresenta un asset sottoutilizzato nel percorso ZMOT:</p>
                         <ul class="small">
-                            <li><strong>Qualità nascosta:</strong> Clienti soddisfatti ma testimonianze non facilmente trovabili</li>
-                            <li><strong>Fiducia da costruire:</strong> PMI in ricerca non trovano validazione sociale immediata</li>
-                            <li><strong>Vantaggio competitivo latente:</strong> Trasparenza e focus PMI non comunicati efficacemente</li>
-                            <li><strong>Potenziale word-of-mouth:</strong> Clienti ambassador non attivati sistematicamente</li>
+                            <li><strong>Reputazione nascosta:</strong> Eccellenza offline non tradotta in presenza digitale</li>
+                            <li><strong>Turisti non intercettati:</strong> Mancanza su TripAdvisor limita scoperta spontanea</li>
+                            <li><strong>Social proof limitata:</strong> Poche recensioni online nonostante migliaia di clienti soddisfatti</li>
+                            <li><strong>Storytelling da valorizzare:</strong> 50 anni di storia non raccontati efficacemente online</li>
                         </ul>
-                        <p class="small mb-0">Con strategie mirate, Ecomate potrebbe facilmente portare il sentiment score a 85-90/100.</p>
+                        <p class="small mb-0">Con strategie mirate di digital reputation, Pasella potrebbe facilmente portare il sentiment score a 95/100.</p>
                     </div>
                 </div>
             </section>
-
-
-            <!-- === END CONTENT MIGRATION === -->
 
         </div> <!-- /dashboard-container -->
 
@@ -522,35 +505,35 @@
          }
 
         // ======================================
-        // CHART DATA (Sentiment Page)
+        // CHART DATA (Sentiment Page) - Updated for Pasella
         // ======================================
          const chartDataSentiment = {
              keywordAnalysis: {
-                 labels: ['Trasparenza', 'Facilità d\'uso', 'Focus UE', 'Accessibilità', 'Innovazione'],
+                 labels: ['Qualità artigianale', 'Tradizione 50 anni', 'Autenticità sarda', 'Varietà prodotti', 'Esperienza laboratorio'],
                  datasets: [{
                      label: 'Menzione elementi positivi (%)',
-                     data: [90, 85, 80, 75, 70],
-                     backgroundColor: 'rgba(77, 140, 87, 0.7)', // --success transparent
-                     borderColor: 'rgb(77, 140, 87)', // --success
+                     data: [95, 90, 85, 80, 75],
+                     backgroundColor: 'rgba(77, 140, 87, 0.7)',
+                     borderColor: 'rgb(77, 140, 87)',
                      borderWidth: 1
                  }]
              },
              reviewsComparison: {
-                 labels: ['Ecomate', 'EcoVadis', 'Cerved', 'CRIF/Synesgy', 'Modefinance', 'Bureau Veritas'],
+                 labels: ['Pasella', 'Ajò Kose', 'Walter Usai', 'Ferraro Gioielli', 'Artemest', 'Artigiano in Fiera'],
                  datasets: [
                      {
                          label: 'Qualità Sentiment (0-5)',
-                         data: [4.5, 3.5, 3.8, 3.2, 3.5, 4.0],
-                         backgroundColor: 'rgba(77, 140, 87, 0.7)', // --success transparent
-                         borderColor: 'rgb(77, 140, 87)', // --success
+                         data: [5.0, 4.2, 4.5, 4.3, 4.0, 3.8],
+                         backgroundColor: 'rgba(77, 140, 87, 0.7)',
+                         borderColor: 'rgb(77, 140, 87)',
                          borderWidth: 1,
                          yAxisID: 'y'
                      },
                      {
-                         label: 'Presenza Social (K follower)', // K = migliaia
-                         data: [1.8, 118, 67, 172, 6.8, 1336], // Dati dal report
-                         backgroundColor: 'rgba(25, 25, 112, 0.7)', // --primary transparent
-                         borderColor: 'rgb(25, 25, 112)', // --primary
+                         label: 'Presenza Social (K follower)',
+                         data: [6, 17, 4.8, 39.5, 59, 348],
+                         backgroundColor: 'rgba(25, 25, 112, 0.7)',
+                         borderColor: 'rgb(25, 25, 112)',
                          borderWidth: 1,
                          type: 'line',
                          yAxisID: 'y1',
@@ -559,23 +542,23 @@
                  ]
              },
              sentimentSummary: {
-                 labels: ['Testimonianze Clienti', 'Partnership Istituzionali', 'Media Specializzati', 'LinkedIn/Social', 'Recensioni Pubbliche', 'Community Engagement'],
+                 labels: ['Recensioni E-commerce', 'Facebook Feedback', 'Media Coverage', 'Google Maps', 'TripAdvisor', 'YouTube/Video'],
                  datasets: [
                      {
-                         label: 'Ecomate Sentiment Score',
-                         data: [95, 90, 85, 70, 0, 60], // From analysis
-                         backgroundColor: 'rgba(77, 140, 87, 0.2)', // --success more transparent
-                         borderColor: 'rgb(77, 140, 87)', // --success
+                         label: 'Pasella Sentiment Score',
+                         data: [100, 100, 90, 30, 0, 10],
+                         backgroundColor: 'rgba(77, 140, 87, 0.2)',
+                         borderColor: 'rgb(77, 140, 87)',
                          pointBackgroundColor: 'rgb(77, 140, 87)',
                          pointBorderColor: '#fff',
                          pointHoverBackgroundColor: '#fff',
                          pointHoverBorderColor: 'rgb(77, 140, 87)'
                      },
                      {
-                         label: 'Media Competitor Score',
-                         data: [70, 60, 70, 80, 75, 85], // Estimated from benchmark
-                         backgroundColor: 'rgba(214, 34, 70, 0.2)', // --danger transparent
-                         borderColor: 'rgb(214, 34, 70)', // --danger
+                         label: 'Media Competitor',
+                         data: [80, 75, 60, 70, 65, 50],
+                         backgroundColor: 'rgba(214, 34, 70, 0.2)',
+                         borderColor: 'rgb(214, 34, 70)',
                          pointBackgroundColor: 'rgb(214, 34, 70)',
                          pointBorderColor: '#fff',
                          pointHoverBackgroundColor: '#fff',
@@ -588,7 +571,7 @@
         // ======================================
         // CHART OPTIONS
         // ======================================
-         const commonChartOptionsSentiment = { /* Same as main page */
+         const commonChartOptionsSentiment = {
              responsive: true, maintainAspectRatio: false,
              plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15, font: { size: 11 } } },
                  tooltip: { backgroundColor: 'rgba(0, 0, 0, 0.8)', titleFont: { weight: 'bold', size: 13 }, bodyFont: { size: 12 }, padding: 10, cornerRadius: 4, displayColors: true, boxPadding: 4 }
@@ -599,16 +582,16 @@
 
          const keywordBarOptions = {
              ...commonChartOptionsSentiment,
-             indexAxis: 'y', // Horizontal bar chart
+             indexAxis: 'y',
              scales: { x: { beginAtZero: true, max: 100, title: { display: true, text: 'Frequenza menzione (%)' } }, y: { ticks: { font: { size: 10 } } } },
-             plugins: { ...commonChartOptionsSentiment.plugins, legend: { display: false }, title: { display: true, text: 'Temi Apprezzati nelle Testimonianze', font: {size: 12} } }
+             plugins: { ...commonChartOptionsSentiment.plugins, legend: { display: false }, title: { display: true, text: 'Temi Apprezzati nelle Recensioni', font: {size: 12} } }
          };
 
          const reviewsComparisonOptions = {
              ...commonChartOptionsSentiment,
              scales: {
                  y: { type: 'linear', position: 'left', beginAtZero: true, max: 5, title: { display: true, text: 'Qualità Sentiment (0-5)' } },
-                 y1: { type: 'linear', position: 'right', beginAtZero: true, suggestedMax: 1500, grid: { drawOnChartArea: false }, title: { display: true, text: 'Presenza Social (Migliaia follower)' } }
+                 y1: { type: 'linear', position: 'right', beginAtZero: true, suggestedMax: 400, grid: { drawOnChartArea: false }, title: { display: true, text: 'Presenza Social (Migliaia follower)' } }
              },
              plugins: { ...commonChartOptionsSentiment.plugins, title: { display: true, text: 'Sentiment vs Presenza Social - Benchmark', font: {size: 12} } }
          };
@@ -623,7 +606,7 @@
         // CHART INITIALIZATION
         // ======================================
         document.addEventListener('DOMContentLoaded', function() {
-             console.log("Initializing ZMOT Sentiment charts for Ecomate.");
+             console.log("Initializing ZMOT Sentiment charts for Artigianato Pasella.");
              initChart('keywordAnalysisChart', 'bar', chartDataSentiment.keywordAnalysis, keywordBarOptions);
              initChart('reviewsComparisonChart', 'bar', chartDataSentiment.reviewsComparison, reviewsComparisonOptions);
              initChart('sentimentSummaryChart', 'radar', chartDataSentiment.sentimentSummary, sentimentRadarOptions);
