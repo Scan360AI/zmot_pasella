@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCAN360 - ZMOT: Benchmark | Artigianato Pasella</title>
+    <!-- Librerie Esterne -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="css/print.css" rel="stylesheet" media="print">
+
+    <!-- Stili Incorporati -->
+    <style>
+        /* Copia/Incolla tutti gli stili CSS da zmot-pr_new.html qui */
+        .actions-card ol.action-list { padding-left: 0; list-style: none; }
+        .actions-card li { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;}
+        .actions-card li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+        .actions-card li strong { color: var(--primary); display: block; margin-bottom: 0.2rem;}
+        .actions-card .priority-badge { font-size: 0.75rem; padding: 3px 8px; flex-shrink: 0; margin-left: 1rem;}
+        /* Stili V15 mantenuti e aggiustamenti */
+        .irp-visual-section { background: linear-gradient(135deg, var(--white) 0%, #f0f4f8 100%); border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); margin-bottom: 2.5rem; border: 1px solid var(--card-border); }
+        .irp-main-title { color: var(--primary); font-weight: 700; margin-bottom: 1.5rem; border-bottom: 2px solid var(--secondary); padding-bottom: 0.8rem; }
+        .irp-gradient-bar-container { margin-bottom: 0.5rem; }
+        .irp-gradient-bar { height: 20px; border-radius: 10px; overflow: hidden; position: relative; background: linear-gradient(to right, #d62246 0%, #d98c00 35%, #ffc107 55%, #4CAF50 80%, #191970 100%); border: 1px solid #bdc3c7; }
+        .irp-marker { position: absolute; top: -5px; bottom: -5px; width: 6px; background-color: #ffffff; border: 2px solid #343a40; transform: translateX(-50%); box-shadow: 0 0 8px rgba(0,0,0,0.5); z-index: 2; border-radius: 3px; }
+        .irp-marker::after { content: ''; position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 8px solid #343a40; }
+        .irp-scale-labels { font-size: 0.8rem; color: #6c757d; font-weight: 500; padding: 0 5px;}
+        .irp-score-circle { width: 140px; height: 140px; border-radius: 50%; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 0.5rem auto; box-shadow: 0 8px 20px rgba(0,0,0,0.25); background: var(--warning); border: 6px solid rgba(255, 255, 255, 0.5); }
+        .irp-score-circle.risk-low { background: radial-gradient(circle, #6bc571, #4CAF50); }
+        .irp-score-circle.risk-medium { background: radial-gradient(circle, #ffd54f, #FFC107); }
+        .irp-score-circle.risk-high { background: radial-gradient(circle, #f6685e, #F44336); }
+        .irp-score-value { font-size: 3.5rem; font-weight: 700; line-height: 1; text-shadow: 1px 1px 3px rgba(0,0,0,0.4);}
+        .irp-score-max { font-size: 0.9rem; opacity: 0.8; display: block; line-height: 1;}
+        .irp-category-text { font-size: 1.2rem; font-weight: 600; margin-top: 0.5rem; text-align: center; }
+        .irp-category-text .status-badge { font-size: 0.85rem; vertical-align: middle; margin-left: 8px;}
+
+        :root {
+            --primary: #191970; --secondary: #4a69bd; --success: #4CAF50;
+            --warning: #FFC107; --danger: #F44336; --info: #0dcaf0;
+            --light: #f8f9fa; --dark: #343a40; --white: #ffffff;
+            --text-primary: #212529; --text-secondary: #6c757d;
+            --card-bg: var(--white); --card-border: #dee2e6;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        html, body { height: 100%; overflow-x: hidden; font-family: 'Titillium Web', sans-serif; background-color: #f4f8fb; }
+        body { display: flex; }
+        .sidebar { width: 250px; background-color: var(--primary); color: #e0e0e0; position: fixed; top: 0; bottom: 0; left: 0; z-index: 1031; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1); transition: width 0.3s ease; overflow-y: auto; }
+        .main-wrapper { margin-left: 250px; width: calc(100% - 250px); display: flex; flex-direction: column; min-height: 100vh; position: relative; padding-top: 70px; }
+        .dashboard-header { background-color: var(--white); padding: 15px 30px; border-bottom: 1px solid var(--card-border); box-shadow: 0 2px 5px rgba(0,0,0,0.05); min-height: 70px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 250px; right: 0; z-index: 1030; }
+        .dashboard-container { padding: 30px; flex-grow: 1; width: 100%; }
+        .footer { background-color: var(--primary); color: rgba(255, 255, 255, 0.7); padding: 15px 30px; font-size: 0.85rem; margin-top: auto; flex-shrink: 0; width: 100%; }
+        .footer img { max-height: 20px; width: auto; filter: brightness(0) invert(1); opacity: 0.8; vertical-align: middle;}
+        .sidebar-header { padding: 10px 20px; margin-bottom: 20px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .sidebar-header img { max-height: 40px; } .sidebar-header h5 { color: var(--white); margin-top: 10px; font-size: 1.1rem; font-weight: 600; }
+        .sidebar-nav { list-style: none; padding: 0; } .sidebar-nav .nav-item { margin: 0; }
+        .sidebar-nav .nav-link { color: #e0e0e0; padding: 12px 20px; display: flex; align-items: center; font-size: 0.95rem; font-weight: 500; border-left: 4px solid transparent; transition: all 0.2s ease; }
+        .sidebar-nav .nav-link:hover { background-color: rgba(255, 255, 255, 0.05); color: var(--white); border-left-color: var(--warning); }
+        .sidebar-nav .nav-link.active { background-color: rgba(255, 255, 255, 0.1); color: var(--white); font-weight: 600; border-left-color: var(--white); }
+        .sidebar-nav .nav-link i { margin-right: 15px; width: 20px; text-align: center; font-size: 1rem; }
+        .sidebar-nav .nav-title { padding: 10px 20px; font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 15px; }
+        .sidebar-footer { margin-top: auto; padding: 15px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; text-align: left; }
+        .section-title { color: var(--primary); font-weight: 600; margin-top: 2.5rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--secondary); font-size: 1.75rem; display: flex; align-items: center; } .section-title i { margin-right: 10px; }
+        .dashboard-card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); transition: all 0.3s ease; }
+        .dashboard-card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.1); transform: translateY(-3px); }
+        .card-title-small { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .table { border: 1px solid var(--card-border); margin-bottom: 1rem; } .table thead th { background-color: var(--light); color: var(--primary); font-weight: 600; border-bottom: 2px solid var(--primary); font-size: 0.9rem; white-space: nowrap; } .table-hover tbody tr:hover { background-color: #eef2f7; } .table td, .table th { vertical-align: middle; padding: 0.6rem 0.75rem; font-size: 0.9rem;} .value-highlight { font-weight: 600; color: var(--primary); } .text-end { text-align: right !important;} .text-success { color: var(--success) !important; } .text-danger { color: var(--danger) !important; } .text-warning { color: var(--warning) !important; } .text-secondary { color: var(--text-secondary) !important; }
+        .alert-box { padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid; } .alert-box h5 { margin-bottom: 10px; font-size: 1.1rem; font-weight: 600;} .alert-box ul { padding-left: 20px; margin-bottom: 0; font-size: 0.9rem;}
+        .alert-box.alert-success { background-color: #d1e7dd; border-color: #a3cfbb; color: #0a3622; }
+        .alert-box.alert-warning { background-color: #fff3cd; border-color: #ffda6a; color: #664d03; }
+        .alert-box.alert-danger { background-color: #f8d7da; border-color: #f1aeb5; color: #58151c; }
+        .alert-box.alert-info { background-color: #cff4fc; border-color: #9eeaf9; color: #055160; }
+        .indicator { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; display: inline-block; color: white; }
+        .indicator-good { background-color: var(--success); }
+        .indicator-medium { background-color: var(--warning); color: var(--dark); }
+        .indicator-poor { background-color: var(--danger); }
+        .status-badge { font-size: .75em; font-weight: 700; line-height: 1; padding: .35em .65em; border-radius: .375rem; color: white; display: inline-block; } .status-badge.bg-success { background-color: var(--success) !important; } .status-badge.bg-warning { background-color: var(--warning) !important; color: var(--dark) !important;} .status-badge.bg-danger { background-color: var(--danger) !important; } .status-badge.bg-info { background-color: var(--info) !important; color: var(--dark) !important;}
+        .chart-container { height: 300px; margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 8px; border: 1px solid var(--card-border); box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; }
+        .icon-circle { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: white; margin-right: 12px; font-size: 0.9rem; flex-shrink: 0; }
+        .bg-icon-success { background-color: var(--success); } .bg-icon-warning { background-color: var(--warning); } .bg-icon-danger { background-color: var(--danger); } .bg-icon-info { background-color: #4f6d7a; } .bg-icon-primary { background-color: var(--primary); } .bg-icon-secondary { background-color: var(--secondary); }
+        .kpi-card-simple { display: flex; flex-direction: column; padding: 1rem; background-color: var(--white); border-radius: 8px; box-shadow: var(--shadow); margin-bottom: 1.5rem; border: 1px solid var(--card-border); height: 100%; text-align: center; }
+        .kpi-card-simple .kpi-title { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+        .kpi-card-simple .kpi-value { font-size: 1.7rem; font-weight: 700; color: var(--dark); line-height: 1.2; margin-bottom: 3px; }
+        .kpi-card-simple .kpi-extra { font-size: 0.8rem; color: var(--text-secondary); }
+
+        .accordion-item { background-color: var(--white); border: 1px solid var(--card-border); border-radius: 8px !important; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05);} .accordion-header { }
+        .accordion-button { font-weight: 600; font-size: 1.1rem; color: var(--primary); background-color: #f8f9fa; box-shadow: none !important; border-radius: 7px 7px 0 0 !important;}
+        .accordion-button:not(.collapsed) { color: var(--white); background-color: var(--secondary); }
+        .accordion-button:focus { box-shadow: none; }
+        .accordion-button::after { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23191970'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); transition: transform .2s ease-in-out;}
+        .accordion-button:not(.collapsed)::after { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); transform: rotate(-180deg); }
+        .accordion-body { padding: 1.5rem; font-size: 0.9rem; } .accordion-body h6 { font-weight: 600; color: var(--secondary); margin-top: 1rem; margin-bottom: 0.5rem; } .accordion-body .table { margin-top: 1rem; }
+
+        .alert-card { display: flex; align-items: flex-start; padding: 1rem; border-radius: 8px; border: 1px solid; background-color: #f8f9fa; margin-bottom: 1rem; box-shadow: var(--shadow); }
+        .alert-card .alert-icon { font-size: 1.8rem; margin-right: 1rem; flex-shrink: 0; width: 40px; text-align: center; }
+        .alert-card h5 { font-weight: 600; margin-bottom: 0.3rem; font-size: 1.1rem; }
+        .alert-card p { font-size: 0.9rem; margin-bottom: 0; line-height: 1.5; }
+        .alert-card.alert-danger { border-color: #f1aeb5; color: #58151c; background-color: #f8d7da; } .alert-card.alert-danger .alert-icon { color: #a94442; }
+        .alert-card.alert-warning { border-color: #ffda6a; color: #664d03; background-color: #fff3cd; } .alert-card.alert-warning .alert-icon { color: #8a6d3b; }
+        .alert-card.alert-info { border-color: #9eeaf9; color: #055160; background-color: #cff4fc; } .alert-card.alert-info .alert-icon { color: #31708f; }
+        .alert-card.alert-success { border-color: #a3cfbb; color: #0a3622; background-color: #d1e7dd; } .alert-card.alert-success .alert-icon { color: #3c763d; }
+
+        .executive-summary-card { background-color: #f0f4f8; border-left: 5px solid var(--primary); border-radius: 8px; box-shadow: var(--shadow); }
+        .executive-summary-card .card-body { padding: 1.5rem; }
+        .card-title-modern { font-size: 1rem; font-weight: 600; color: var(--primary); margin-bottom: 1rem; text-align: center; }
+        .chart-card { padding-top: 1rem; }
+
+        .trust-score-display { display: flex; align-items: center; background-color: var(--light); padding: 15px; border-radius: 8px; border: 1px solid var(--card-border); }
+        .trust-badge { background-color: var(--success); color: white; padding: 10px 15px; border-radius: 8px; font-size: 1.5rem; font-weight: bold; margin-right: 15px; text-align: center; }
+        .trust-badge small { display: block; font-size: 0.8rem; }
+        .trust-badge .stars { font-size: 0.9rem; margin-top: 5px; }
+        .trust-info p { margin-bottom: 0; font-size: 0.9rem; }
+        .list-group-item i { color: var(--success); }
+
+        @media (max-width: 991.98px) { .sidebar { width: 0; border: none; box-shadow: none;} .main-wrapper { margin-left: 0; width: 100%; padding-top: 56px; } .dashboard-header { left: 0; width: 100%; min-height: 56px; padding: 5px 15px;} .header-title h5 { font-size: 1rem;} .header-title p { font-size: 0.75rem;} .dashboard-container { padding: 15px;} .footer { padding: 10px 15px;} }
+        @media print { body { display: block; } .main-wrapper { margin-left: 0; width: 100%; padding-top: 0; } .no-print { display: none !important; } .report-section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+   <!-- Sidebar -->
+    <aside class="sidebar no-print">
+         <div class="sidebar-header">
+             <img src="assets/img/logo_placeholder_white.png" alt="Pasella Logo" style="max-height: 40px; filter: brightness(0) invert(1);">
+             <h5>Artigianato Pasella - ZMOT</h5>
+         </div>
+         <ul class="sidebar-nav flex-grow-1">
+             <!-- ZMOT Navigation -->
+             <li class="nav-item"> <a class="nav-link" href="zmot-main.html"> <i class="fas fa-home fa-fw"></i> Introduzione </a> </li>
+             <li class="nav-item"> <a class="nav-link" href="zmot-sentiment.html"> <i class="fas fa-star-half-alt fa-fw"></i> Sentiment </a> </li>
+             <li class="nav-item"> <a class="nav-link" href="zmot-social.html"> <i class="fas fa-users fa-fw"></i> Social Media </a> </li>
+             <li class="nav-item"> <a class="nav-link" href="zmot-website.html"> <i class="fas fa-globe fa-fw"></i> Sito Web </a> </li>
+             <li class="nav-item"> <a class="nav-link" href="zmot-serp.html"> <i class="fas fa-search fa-fw"></i> SERP </a> </li>
+             <li class="nav-item"> <a class="nav-link" href="zmot-pr.html"> <i class="fas fa-newspaper fa-fw"></i> PR & Media </a> </li>
+             <li class="nav-item"> <a class="nav-link active" href="zmot-benchmark.html"> <i class="fas fa-chart-bar fa-fw"></i> Benchmark </a> </li>
+             <li class="nav-item"> <a class="nav-link" href="zmot-strategy.html"> <i class="fas fa-lightbulb fa-fw"></i> Strategie </a> </li>
+         </ul>
+         <div class="sidebar-footer"> <small>SCAN360 © <span id="currentYearSidebar"></span> Kitzanos</small> </div>
+     </aside>
+
+    <!-- Contenuto Principale Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header Orizzontale -->
+        <header class="dashboard-header no-print">
+            <div class="header-title">
+                 <h5 class="mb-0">Artigianato Pasella - Benchmark Competitivo</h5>
+                 <p class="mb-0">ZMOT Analysis: Posizionamento vs Competitor | <span class="report-date">31 Marzo 2025</span></p>
+            </div>
+            <div class="header-controls d-flex align-items-center">
+                <button class="btn btn-sm btn-outline-secondary me-2 print-button" onclick="window.print()"> <i class="fas fa-print"></i> Stampa </button>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light border dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user-circle me-1"></i> Artigianato Pasella </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
+                        <li><button class="dropdown-item" type="button" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Header per Stampa -->
+        <div class="container d-none d-print-block mt-4 mb-4">
+            <h1 class="text-center mb-0"><span class="company-name">Artigianato Pasella</span></h1>
+            <p class="text-center mb-0">ZMOT - Benchmark Competitivo e Posizionamento | <span class="report-date">31 Marzo 2025</span></p>
+            <hr>
+        </div>
+
+        <!-- Area Contenuto Dashboard ZMOT -->
+        <div class="dashboard-container">
+
+            <!-- Introduzione Benchmark -->
+            <section id="benchmark-intro" class="report-section">
+                <div class="card executive-summary-card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3" style="color: var(--primary);"><i class="fas fa-chart-bar text-warning me-2"></i>Benchmark e Posizionamento Competitivo</h4>
+                        <p class="mb-0">Questa sezione analizza il posizionamento digitale di Artigianato Pasella rispetto ai principali concorrenti nel mercato italiano dell'artigianato sardo. Nel momento ZMOT, i potenziali clienti confrontano spesso diverse piattaforme prima di scegliere dove acquistare prodotti artigianali: comprendere come si posiziona Pasella nel panorama competitivo è quindi essenziale per valutare i suoi punti di forza e le aree di miglioramento.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panoramica Competitor -->
+            <section id="competitors-overview" class="report-section">
+                <h2 class="section-title"><i class="fas fa-briefcase me-2"></i>Panoramica dei Competitor</h2>
+                 <div class="dashboard-card mb-4">
+                     <h5 class="card-title-modern mb-4">Piattaforme di Riferimento</h5>
+                     <!-- Info block -->
+                     <div class="alert alert-info alert-box p-3 mb-4">
+                         <h6 class="d-flex align-items-center mb-2"><i class="fas fa-info-circle me-2"></i>Competitor Analizzati</h6>
+                         <p class="small">Per contestualizzare i dati, abbiamo confrontato Artigianato Pasella con sei concorrenti nel mercato dell'artigianato sardo:</p>
+                         <div class="table-responsive">
+                             <table class="table table-sm table-hover mb-0">
+                                 <thead class="table-light">
+                                     <tr><th>Piattaforma</th> <th>Posizionamento</th> <th>Target primario</th> <th>Approccio</th> <th>Caratteristiche distintive</th></tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr><td><strong>Ajò Kose</strong></td> <td>Artigianato sardo generalista</td> <td>Turisti e locali</td> <td>Retail multicanale</td> <td>6+ negozi, aeroporti</td></tr>
+                                     <tr><td><strong>Walter Usai</strong></td> <td>Ceramica artistica premium</td> <td>Collezionisti</td> <td>Bottega d'arte</td> <td>4ª generazione, pezzi unici</td></tr>
+                                     <tr><td><strong>Ferraro Gioielli</strong></td> <td>Gioielleria luxury</td> <td>Alto spendenti</td> <td>Corallo e filigrana</td> <td>Design contemporaneo</td></tr>
+                                     <tr><td><strong>Artemest</strong></td> <td>Marketplace luxury italiano</td> <td>Design global</td> <td>Piattaforma online</td> <td>Curatorship, prezzi elevati</td></tr>
+                                     <tr><td><strong>Artigiano in Fiera</strong></td> <td>Fiera + e-commerce</td> <td>Massa nazionale</td> <td>Eventi + online</td> <td>Varietà, promozioni</td></tr>
+                                     <tr><td><strong>Boutique Costa Smeralda</strong></td> <td>Luxury lifestyle brand</td> <td>VIP Porto Cervo</td> <td>Merchandising esclusivo</td> <td>Brand Costa Smeralda</td></tr>
+                                     <tr class="table-primary fw-bold"><td><strong>Artigianato Pasella</strong></td> <td>Multi-categoria tradizionale</td> <td>Turisti e sardi</td> <td>Produzione propria + retail</td> <td>50+ anni storia, 15 negozi Gallura</td></tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                         <p class="small mt-3 mb-0">Questi competitor rappresentano un campione significativo con diverse strutture, target e approcci. Alcuni competono in verticali specifici (Walter Usai per ceramica), altri sono retailer generalisti (Ajò Kose), altri ancora piattaforme globali (Artemest).</p>
+                     </div>
+                 </div>
+            </section>
+
+            <!-- Confronto Social Media -->
+            <section id="social-benchmark" class="report-section">
+                <h2 class="section-title"><i class="fas fa-users me-2"></i>Benchmark Social Media</h2>
+                 <div class="dashboard-card mb-4">
+                    <h5 class="card-title-modern mb-4">Confronto Presenza Social</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="chart-container" style="height: 350px;">
+                                <canvas id="socialFollowersChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <!-- Strength block -->
+                            <div class="alert alert-success alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-chart-line me-2"></i>Presenza Social Solida</h6>
+                                <p class="small">Analisi comparativa evidenzia <strong>buona presenza Pasella sui social</strong>:</p>
+                                <ul class="small">
+                                    <li>Facebook: <strong>~6.000 fan</strong>, community locale attiva, superiore a Walter Usai (4.8K).</li>
+                                    <li>Instagram: <strong>~2.700 follower</strong>, feed curato con 780+ post, simile a Ferraro.</li>
+                                    <li>YouTube: Canale presente ma inattivo, potenziale non sfruttato.</li>
+                                </ul>
+                                <p class="small mb-0">Pasella compete bene con artigiani locali ma sotto a Ajò Kose (17K FB) e Ferraro (39.5K FB).</p>
+                            </div>
+                            <!-- Attention block -->
+                           <div class="alert alert-warning alert-box p-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-comments me-2"></i>Confronto Engagement e Contenuti</h6>
+                                <p class="small">Differenze qualitative nell'approccio social:</p>
+                                <ul class="small">
+                                    <li><strong>Pasella:</strong> Storytelling artigianale, tono autentico, focus tradizione.</li>
+                                    <li><strong>Ajò Kose:</strong> Promozioni aggressive, approccio commerciale.</li>
+                                    <li><strong>Ferraro:</strong> Contenuti luxury patinati, community engagement alto.</li>
+                                    <li><strong>Artemest:</strong> Brand globale, 486K follower IG (!), contenuti curati.</li>
+                                    <li><strong>Walter Usai:</strong> Focus artistico ceramica, pubblico di nicchia.</li>
+                                </ul>
+                                <p class="small mb-0">Pasella mostra <strong>autenticità e qualità contenuti</strong>, ma volume e reach inferiori a alcuni competitor che hanno investito di più in social marketing.</p>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Confronto Sentiment e Recensioni -->
+            <section id="rating-benchmark" class="report-section">
+                <h2 class="section-title"><i class="fas fa-star-half-alt me-2"></i>Benchmark Recensioni e Feedback</h2>
+                <div class="dashboard-card mb-4">
+                    <h5 class="card-title-modern mb-4">Valutazioni Comparative Online</h5>
+                    <div class="row g-4">
+                        <div class="col-lg-5">
+                             <div class="chart-container mb-4" style="height: 300px;">
+                                <canvas id="ratingBenchmarkChart"></canvas>
+                            </div>
+                             <h6 class="card-title-small text-center text-uppercase">Dettaglio Valutazioni</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover table-bordered">
+                                    <thead class="table-light">
+                                        <tr><th>Piattaforma</th> <th class="text-end">Valutazione</th> <th class="text-end">Recensioni</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Artigianato Pasella</td> <td class="text-end"><span class="badge bg-success">5.0/5</span></td> <td class="text-end">Store online</td></tr>
+                                        <tr><td>Pasella Facebook</td> <td class="text-end"><span class="badge bg-success">100%</span></td> <td class="text-end">12 raccom.</td></tr>
+                                        <tr><td>Ajò Kose</td> <td class="text-end"><span class="badge bg-info text-dark">n.d.</span></td> <td class="text-end">n.d.</td></tr>
+                                        <tr><td>Walter Usai</td> <td class="text-end"><span class="badge bg-info text-dark">n.d.</span></td> <td class="text-end">n.d.</td></tr>
+                                        <tr><td>Ferraro</td> <td class="text-end"><span class="badge bg-info text-dark">n.d.</span></td> <td class="text-end">n.d.</td></tr>
+                                        <tr><td>Artemest</td> <td class="text-end"><span class="badge bg-warning text-dark">4.3/5</span></td> <td class="text-end">Trustpilot</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                             <!-- Success block -->
+                            <div class="alert alert-success alert-box p-3 mb-4">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-trophy fa-2x me-3"></i>
+                                    <div> <h6 class="mb-1">Eccellenza nelle Recensioni</h6> <p class="mb-0 small">Analisi evidenzia <strong>sentiment eccezionale</strong> per Pasella.</p> </div>
+                                </div>
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item bg-transparent px-0 py-1"><i class="fas fa-star me-2"></i>Store online: <strong>5.0/5 stelle</strong> valutazione perfetta.</li>
+                                    <li class="list-group-item bg-transparent px-0 py-1"><i class="fas fa-thumbs-up me-2"></i>Facebook: <strong>100% raccomandazioni positive</strong> (12/12).</li>
+                                    <li class="list-group-item bg-transparent px-0 py-1"><i class="fas fa-comments me-2"></i>Commenti: "bellezza e fattura", "prodotti unici", "spedizione veloce".</li>
+                                    <li class="list-group-item bg-transparent px-0 py-1"><i class="fas fa-award me-2"></i>Zero recensioni negative rilevate su tutte le piattaforme.</li>
+                                </ul>
+                           </div>
+                             <!-- Info block -->
+                           <div class="alert alert-info alert-box p-3 mb-4 small">
+                               <i class="fas fa-info-circle me-2"></i><strong>Nota comparativa:</strong> La maggior parte dei competitor artigianali non ha recensioni pubbliche aggregate (tipico del settore). Artemest ha 4.3/5 su Trustpilot ma è un marketplace. L'eccellenza di Pasella nelle recensioni è un differenziatore chiave.
+                           </div>
+                            <!-- Analysis Block -->
+                            <div class="bg-light p-3 rounded border">
+                                <h6 class="card-title-small text-uppercase mb-3"><i class="fas fa-id-badge me-2"></i>Analisi Qualitativa Feedback</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="p-2 mb-2 rounded" style="border-left: 3px solid var(--success);">
+                                            <h6 class="d-flex align-items-center small"><i class="fas fa-thumbs-up me-2 text-success"></i><strong>Punti di Forza</strong></h6>
+                                            <ul class="small mb-0 ps-3"> <li>Qualità artigianale</li> <li>Autenticità prodotti</li> <li>Packaging curato</li> <li>Servizio cortese</li> <li>Storia e tradizione</li> </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-2 mb-2 rounded" style="border-left: 3px solid var(--warning);">
+                                            <h6 class="d-flex align-items-center small"><i class="fas fa-lightbulb me-2 text-warning"></i><strong>Opportunità</strong></h6>
+                                            <ul class="small mb-0 ps-3"> <li>Aumentare volume recensioni</li> <li>Presenza su TripAdvisor</li> <li>Google My Business attivo</li> <li>Testimonianze video</li> <li>Badge certificazione</li> </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Recommendation block -->
+                            <div class="alert alert-primary alert-box p-3 mt-4">
+                                <h6 class="d-flex align-items-center mb-3"><i class="fas fa-lightbulb me-2"></i>Opportunità Strategiche</h6>
+                                <ol class="small mb-0 ps-4">
+                                    <li>Attivare campagna recensioni (email post-acquisto).</li>
+                                    <li>Rivendicare profili Google My Business per ogni negozio.</li>
+                                    <li>Inserire widget recensioni in homepage sito.</li>
+                                    <li>Capitalizzare sentiment perfetto in comunicazione.</li>
+                                    <li>Certificazioni qualità artigianale per trust aggiuntivo.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Digital Performance -->
+            <section id="digital-benchmark" class="report-section">
+                <h2 class="section-title"><i class="fas fa-globe me-2"></i>Benchmark Performance Digitale</h2>
+                <div class="dashboard-card mb-4">
+                    <h5 class="card-title-modern mb-4">Confronto Siti Web e Strategie Digitali</h5>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive mb-4">
+                                <table class="table table-striped table-sm table-bordered">
+                                     <thead class="table-light"><tr><th>Dimensione</th> <th>Artigianato Pasella</th> <th>Ajò Kose</th> <th>Walter Usai</th> <th>Ferraro</th> <th>Artemest</th></tr></thead>
+                                     <tbody>
+                                         <tr><td>User Experience (UX)</td> <td><span class="indicator indicator-good">Eccellente</span></td> <td><span class="indicator indicator-medium">Buona</span></td> <td><span class="indicator indicator-medium">Base</span></td> <td><span class="indicator indicator-good">Ottima</span></td> <td><span class="indicator indicator-good">Premium</span></td></tr>
+                                         <tr><td>Mobile responsiveness</td> <td><span class="indicator indicator-good">Ottima</span></td> <td><span class="indicator indicator-good">Buona</span></td> <td><span class="indicator indicator-medium">Base</span></td> <td><span class="indicator indicator-good">Ottima</span></td> <td><span class="indicator indicator-good">Eccellente</span></td></tr>
+                                         <tr><td>SEO e visibilità</td> <td><span class="indicator indicator-good">Molto buona</span></td> <td><span class="indicator indicator-medium">Media</span></td> <td><span class="indicator indicator-poor">Limitata</span></td> <td><span class="indicator indicator-medium">Settoriale</span></td> <td><span class="indicator indicator-good">Globale</span></td></tr>
+                                         <tr><td>Velocità caricamento</td> <td><span class="indicator indicator-medium">Migliorabile</span></td> <td><span class="indicator indicator-medium">Media</span></td> <td><span class="indicator indicator-medium">Base</span></td> <td><span class="indicator indicator-good">Buona</span></td> <td><span class="indicator indicator-good">Ottima</span></td></tr>
+                                         <tr><td>E-commerce</td> <td><span class="indicator indicator-good">Shopify pro</span></td> <td><span class="indicator indicator-good">Completo</span></td> <td><span class="indicator indicator-poor">No</span></td> <td><span class="indicator indicator-good">Proprietario</span></td> <td><span class="indicator indicator-good">Marketplace</span></td></tr>
+                                         <tr><td>Contenuti storytelling</td> <td><span class="indicator indicator-good">Eccellenti</span></td> <td><span class="indicator indicator-poor">Limitati</span></td> <td><span class="indicator indicator-medium">Artistici</span></td> <td><span class="indicator indicator-medium">Brand</span></td> <td><span class="indicator indicator-good">Curati</span></td></tr>
+                                         <tr><td>Internazionalizzazione</td> <td><span class="indicator indicator-medium">ITA/ENG shop</span></td> <td><span class="indicator indicator-medium">Base</span></td> <td><span class="indicator indicator-poor">Solo ITA</span></td> <td><span class="indicator indicator-good">Multi</span></td> <td><span class="indicator indicator-good">Globale</span></td></tr>
+                                         <tr><td>Servizi aggiuntivi</td> <td><span class="indicator indicator-good">Visite/Su misura</span></td> <td><span class="indicator indicator-poor">No</span></td> <td><span class="indicator indicator-medium">Appuntamento</span></td> <td><span class="indicator indicator-poor">No</span></td> <td><span class="indicator indicator-medium">Curatorship</span></td></tr>
+                                     </tbody>
+                                </table>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="chart-container mb-4" style="height: 250px;"> <canvas id="digitalScoreChart"></canvas> </div>
+                                    <div class="chart-container" style="height: 250px;"> <canvas id="userExperienceChart"></canvas> </div>
+                                </div>
+                                <div class="col-md-6">
+                                     <!-- Strength block -->
+                                    <div class="alert alert-success alert-box p-3 mb-3">
+                                        <h6 class="d-flex align-items-center mb-2"><i class="fas fa-trophy me-2"></i>Punti di Forza Digitali Pasella</h6>
+                                        <p class="small">Vantaggi competitivi di Artigianato Pasella:</p>
+                                        <ul class="small">
+                                            <li><strong>Contenuti ricchi</strong> (blog, storia, tecniche - superiori a tutti).</li>
+                                            <li><strong>SEO efficace</strong> (prima pagina "artigianato sardo online").</li>
+                                            <li><strong>Doppio dominio</strong> strategico (.com info + .it shop).</li>
+                                            <li><strong>Servizi esclusivi</strong> (visite guidate, creazioni su misura).</li>
+                                            <li><strong>Integrazione territorio</strong> (15 negozi + laboratorio visitabile).</li>
+                                            <li><strong>50+ anni storia</strong> comunicati efficacemente online.</li>
+                                        </ul>
+                                   </div>
+                                     <!-- Weakness block -->
+                                   <div class="alert alert-danger alert-box p-3 mb-3">
+                                        <h6 class="d-flex align-items-center mb-2"><i class="fas fa-exclamation-triangle me-2"></i>Aree Miglioramento</h6>
+                                        <p class="small">Aree dove competitor mostrano vantaggi:</p>
+                                        <ul class="small">
+                                            <li><strong>Performance tecnica:</strong> Velocità sito migliorabile.</li>
+                                            <li><strong>Social reach:</strong> Follower inferiori ad Ajò/Ferraro.</li>
+                                            <li><strong>Presenza marketplace:</strong> Assente da Etsy/Amazon Handmade.</li>
+                                            <li><strong>Video content:</strong> YouTube non sfruttato (vs trend).</li>
+                                            <li><strong>Recensioni aggregate:</strong> Volume basso vs potenziale.</li>
+                                        </ul>
+                                   </div>
+                                     <!-- Info block -->
+                                   <div class="alert alert-info alert-box p-3">
+                                        <h6 class="d-flex align-items-center mb-2"><i class="fas fa-route me-2"></i>User Journey Distintivo</h6>
+                                        <p class="small">Il percorso digitale utente Pasella si distingue per:</p>
+                                        <ol class="small">
+                                            <li><strong>Discovery:</strong> SEO forte + menzioni media prestigiosi.</li>
+                                            <li><strong>Esplorazione:</strong> Contenuti culturali ricchi sul sito.</li>
+                                            <li><strong>Coinvolgimento:</strong> Social storytelling + visite laboratorio.</li>
+                                            <li><strong>Conversione:</strong> Shop bilingue + recensioni perfette.</li>
+                                            <li><strong>Fidelizzazione:</strong> Servizi su misura + heritage brand.</li>
+                                        </ol>
+                                        <p class="small mb-0">Questo percorso integrato online-offline è unico nel settore e difficilmente replicabile.</p>
+                                   </div>
+                                </div>
+                            </div>
+                            <!-- Attention block -->
+                           <div class="alert alert-warning alert-box p-3 mt-4">
+                               <h6 class="d-flex align-items-center mb-2"><i class="fas fa-info-circle me-2"></i>Tendenze Settore Artigianato</h6>
+                               <p class="small">Dal confronto emergono tendenze significative:</p>
+                               <ul class="small">
+                                   <li><strong>Digitalizzazione crescente:</strong> Anche botteghe storiche (Usai) vanno online.</li>
+                                   <li><strong>Marketplace globali:</strong> Artemest domina fascia luxury internazionale.</li>
+                                   <li><strong>Social commerce:</strong> Instagram diventa vetrina vendite (Ferraro).</li>
+                                   <li><strong>Esperienza oltre prodotto:</strong> Visite, workshop valorizzano heritage.</li>
+                                   <li><strong>Sostenibilità:</strong> Materiali naturali (sughero) sempre più richiesti.</li>
+                                   <li><strong>Personalizzazione:</strong> Servizi su misura differenziano da mass market.</li>
+                               </ul>
+                               <p class="small mb-0">Pasella è ben posizionata su tutti questi trend, con margini di crescita su reach digitale e innovazione prodotto.</p>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Brand Perception -->
+            <section id="brand-benchmark" class="report-section">
+                <h2 class="section-title"><i class="fas fa-comments me-2"></i>Percezione del Brand</h2>
+                <div class="dashboard-card mb-4">
+                    <h5 class="card-title-modern mb-4">Posizionamento e Immagine</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="chart-container" style="height: 350px;">
+                                <canvas id="positioningChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                             <!-- Info block -->
+                           <div class="alert alert-info alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-tags me-2"></i>Analisi del Posizionamento</h6>
+                                <p class="small">Mappa posizionamento evidenzia distinzioni:</p>
+                                <ul class="small">
+                                    <li><strong>Pasella:</strong> Alta percezione qualità + forte radicamento locale.</li>
+                                    <li><strong>Ajò Kose:</strong> Commerciale, ampia distribuzione, meno heritage.</li>
+                                    <li><strong>Walter Usai:</strong> Nicchia artistica ceramica, prestigio settoriale.</li>
+                                    <li><strong>Ferraro:</strong> Luxury gioielli, brand awareness social altissima.</li>
+                                    <li><strong>Artemest:</strong> Piattaforma premium globale, non locale.</li>
+                                </ul>
+                                <p class="small mb-0">Pasella: <strong>equilibrio ideale tradizione/accessibilità</strong>, leadership territoriale Gallura.</p>
+                            </div>
+                             <!-- Strength block -->
+                            <div class="alert alert-success alert-box p-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-chart-line me-2"></i>Brand Equity e Differenziazione</h6>
+                                <p class="small">Asset distintivi del brand Pasella:</p>
+                                <ul class="small">
+                                    <li><strong>Storia 50+ anni:</strong> Dal 1972, tre generazioni famiglia.</li>
+                                    <li><strong>Produzione propria:</strong> Ceramica, sughero, legno in laboratorio.</li>
+                                    <li><strong>Rete capillare:</strong> 15 negozi Gallura, nessun competitor simile.</li>
+                                    <li><strong>Gamma completa:</strong> Unico con tutte categorie artigianato.</li>
+                                    <li><strong>Riconoscimenti media:</strong> Costa Smeralda, Corriere Economia.</li>
+                                </ul>
+                                <p class="small mb-0">Posizionamento <strong>"custode tradizione sarda"</strong> con innovazione continua (giovani artigiani).</p>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sintesi Benchmark -->
+            <section id="benchmark-summary" class="report-section">
+                <h2 class="section-title"><i class="fas fa-chart-pie me-2"></i>Sintesi Benchmark</h2>
+                <div class="dashboard-card mb-4">
+                    <h5 class="card-title-modern mb-4">Valutazione Complessiva</h5>
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <!-- Info block -->
+                             <div class="alert alert-info alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-balance-scale me-2"></i>Benchmark Score: 82/100</h6>
+                                <p class="small">Analisi comparativa posiziona Pasella ai vertici del settore:</p>
+                                <div class="table-responsive">
+                                <table class="table table-sm mb-0">
+                                    <thead class="table-light"><tr><th>Dimensione</th> <th class="text-end">Score</th> <th class="text-end">Valutazione</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Sentiment/Recensioni</td> <td class="text-end">95</td> <td class="text-end"><span class="indicator indicator-good">Eccellente</span></td></tr>
+                                        <tr><td>Social Media</td> <td class="text-end">70</td> <td class="text-end"><span class="indicator indicator-medium">Buono</span></td></tr>
+                                        <tr><td>Performance Digitale</td> <td class="text-end">80</td> <td class="text-end"><span class="indicator indicator-good">Ottima</span></td></tr>
+                                        <tr><td>Brand Heritage</td> <td class="text-end">95</td> <td class="text-end"><span class="indicator indicator-good">Leader</span></td></tr>
+                                        <tr><td>Distribuzione Fisica</td> <td class="text-end">90</td> <td class="text-end"><span class="indicator indicator-good">Dominante</span></td></tr>
+                                        <tr class="table-primary fw-bold"><td>Benchmark complessivo</td> <td class="text-end">82</td> <td class="text-end"><span class="indicator indicator-good">Molto Forte</span></td></tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                             <!-- Strength block -->
+                            <div class="alert alert-success alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-plus-circle me-2"></i>Elementi Distintivi</h6>
+                                <p class="small">Vantaggi competitivi difficilmente replicabili:</p>
+                                <ul class="small">
+                                    <li><strong>Integrazione verticale</strong> (produzione + retail).</li>
+                                    <li><strong>Leadership recensioni</strong> (5.0/5 perfetto).</li>
+                                    <li><strong>Presenza territoriale</strong> (15 negozi Gallura).</li>
+                                    <li><strong>Heritage autentico</strong> (3 generazioni).</li>
+                                    <li><strong>Servizi esclusivi</strong> (visite + su misura).</li>
+                                </ul>
+                                <p class="small mb-0"><strong>Posizione leadership regionale</strong> consolidata e difendibile.</p>
+                            </div>
+                            <!-- Recommendation block -->
+                            <div class="alert alert-success alert-box p-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-lightbulb me-2"></i>Priorità strategiche</h6>
+                                <p class="small">Per consolidare e espandere leadership:</p>
+                                <ol class="small">
+                                    <li>Potenziare <strong>social media marketing</strong> (gap vs competitor).</li>
+                                    <li>Attivare <strong>video content strategy</strong> (YouTube/TikTok).</li>
+                                    <li>Esplorare <strong>marketplace internazionali</strong> (Etsy).</li>
+                                    <li>Accelerare <strong>raccolta recensioni</strong> sistematica.</li>
+                                    <li>Investire in <strong>performance sito</strong> e SEO tecnico.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Attention block -->
+                    <div class="alert alert-warning alert-box p-3 mt-4">
+                        <h6 class="d-flex align-items-center mb-2"><i class="fas fa-info-circle me-2"></i>Impatto ZMOT</h6>
+                        <p class="small">Il posizionamento competitivo di Artigianato Pasella genera numerosi vantaggi nel momento zero della verità:</p>
+                        <ul class="small">
+                            <li>Cliente trova <strong>recensioni perfette 5.0/5</strong> e zero critiche.</li>
+                            <li><strong>Heritage 50+ anni</strong> comunica affidabilità immediata.</li>
+                            <li><strong>Contenuti culturali ricchi</strong> dimostrano competenza/passione.</li>
+                            <li><strong>15 negozi fisici</strong> rassicurano su solidità aziendale.</li>
+                            <li><strong>Media prestigiosi</strong> (Costa Smeralda) validano eccellenza.</li>
+                        </ul>
+                        <p class="small mb-0">Combinazione crea <strong>percezione premium accessibile</strong>: alta qualità artigianale con approccio familiare autentico. Difficile da replicare per nuovi entranti o competitor più commerciali.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div> <!-- /dashboard-container -->
+
+        <!-- Footer Standard -->
+        <footer class="footer no-print">
+            <div class="container-fluid px-4">
+                 <div class="row align-items-center">
+                     <div class="col-md-6 text-center text-md-start mb-2 mb-md-0"> SCAN360 © <span id="currentYearFooterReport"></span> </div>
+                     <div class="col-md-6 text-center text-md-end"> Powered by <a href="http://www.kitzanos.com" target="_blank" class="text-white fw-bold">Kitzanos Lab</a>
+                         <img src="assets/img/logo_kitzanos.png" alt="Kitzanos Logo" class="ms-2" style="height: 20px; vertical-align: middle;">
+                    </div>
+                 </div>
+             </div>
+        </footer>
+
+    </div> <!-- /main-wrapper -->
+
+    <!-- Script JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        // ======================================
+        // HELPER FUNCTIONS
+        // ======================================
+         function initChart(canvasId, type, data, options) {
+             const canvas = document.getElementById(canvasId);
+             if (!canvas) { console.error(`Canvas element with ID '${canvasId}' not found.`); return null; }
+             const ctx = canvas.getContext('2d');
+             if (canvas.chartInstance) { try { canvas.chartInstance.destroy(); } catch(e) { console.warn(`Could not destroy previous chart instance for ${canvasId}: ${e}`); } }
+             if (!data || !data.labels || !data.datasets) { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = 'red'; ctx.font = '14px Arial'; ctx.textAlign = 'center'; ctx.fillText('Errore: Dati non disponibili.', canvas.width / 2, canvas.height / 2); console.error(`Dati non validi per ${canvasId}`); return null; }
+             try { canvas.chartInstance = new Chart(ctx, { type: type, data: data, options: options }); return canvas.chartInstance; }
+             catch (error) { console.error(`Errore grafico ${canvasId}:`, error); ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = 'red'; ctx.font = '14px Arial'; ctx.textAlign = 'center'; const msg = error.message.length > 100 ? error.message.substring(0, 97) + '...' : error.message; ctx.fillText(`Errore: ${msg}`, canvas.width / 2, canvas.height / 2); return null; }
+         }
+
+        // ======================================
+        // CHART DATA (Benchmark Page - Pasella)
+        // ======================================
+         const chartDataBenchmark = {
+             socialFollowers: {
+                 labels: ['Facebook', 'Instagram', 'LinkedIn'],
+                 datasets: [
+                     { label: 'Artigianato Pasella', data: [6, 2.7, 0], backgroundColor: 'rgba(25, 25, 112, 0.7)', borderColor: 'rgb(25, 25, 112)' },
+                     { label: 'Ajò Kose', data: [17, 1.1, 0], backgroundColor: 'rgba(77, 140, 87, 0.7)', borderColor: 'rgb(77, 140, 87)' },
+                     { label: 'Walter Usai', data: [4.8, 2, 0], backgroundColor: 'rgba(214, 34, 70, 0.7)', borderColor: 'rgb(214, 34, 70)' },
+                     { label: 'Ferraro Gioielli', data: [39.5, 2.7, 0], backgroundColor: 'rgba(255, 193, 7, 0.7)', borderColor: 'rgb(255, 193, 7)' }
+                 ]
+             },
+             ratingBenchmark: { // Radar chart for ratings
+                 labels: ['Valutazione media', 'Volume feedback', 'Autenticità', 'Media coverage', 'Heritage'],
+                 datasets: [
+                     { label: 'Artigianato Pasella', data: [100, 60, 95, 85, 100], backgroundColor: 'rgba(25, 25, 112, 0.2)', borderColor: 'rgb(25, 25, 112)', pointBackgroundColor: 'rgb(25, 25, 112)'},
+                     { label: 'Media competitor', data: [70, 50, 75, 60, 65], backgroundColor: 'rgba(214, 34, 70, 0.2)', borderColor: 'rgb(214, 34, 70)', pointBackgroundColor: 'rgb(214, 34, 70)'}
+                 ]
+             },
+             digitalScore: { // Overall digital score
+                 labels: ['Pasella', 'Ajò Kose', 'W. Usai', 'Ferraro', 'Artemest'],
+                 datasets: [{
+                     label: 'Digital Score (0-100)',
+                     data: [80, 65, 45, 70, 90],
+                     backgroundColor: [ 'rgba(25, 25, 112, 0.7)', 'rgba(77, 140, 87, 0.7)', 'rgba(214, 34, 70, 0.7)', 'rgba(255, 193, 7, 0.7)', 'rgba(79, 109, 122, 0.7)'],
+                     borderColor: [ 'rgb(25, 25, 112)', 'rgb(77, 140, 87)', 'rgb(214, 34, 70)', 'rgb(255, 193, 7)', 'rgb(79, 109, 122)'],
+                     borderWidth: 1
+                 }]
+             },
+             userExperience: { // UX radar
+                 labels: ['Contenuti', 'Navigazione', 'Mobile', 'Servizi', 'Heritage', 'E-commerce'],
+                 datasets: [
+                     { label: 'Artigianato Pasella', data: [95, 85, 80, 90, 100, 85], backgroundColor: 'rgba(25, 25, 112, 0.2)', borderColor: 'rgb(25, 25, 112)', pointBackgroundColor: 'rgb(25, 25, 112)' },
+                     { label: 'Media Competitor', data: [60, 70, 75, 50, 70, 75], backgroundColor: 'rgba(255, 193, 7, 0.2)', borderColor: 'rgb(255, 193, 7)', pointBackgroundColor: 'rgb(255, 193, 7)' }
+                 ]
+             },
+             positioning: { // Brand perception scatter
+                datasets: [
+                    { label: 'Pasella', data: [{x: 85, y: 80}], backgroundColor: 'rgb(25, 25, 112)', pointRadius: 10 },
+                    { label: 'Ajò Kose', data: [{x: 70, y: 65}], backgroundColor: 'rgb(77, 140, 87)', pointRadius: 8 },
+                    { label: 'Walter Usai', data: [{x: 95, y: 40}], backgroundColor: 'rgb(214, 34, 70)', pointRadius: 8 },
+                    { label: 'Ferraro', data: [{x: 90, y: 70}], backgroundColor: 'rgb(255, 193, 7)', pointRadius: 8 },
+                    { label: 'Artemest', data: [{x: 95, y: 90}], backgroundColor: 'rgb(79, 109, 122)', pointRadius: 8 }
+                ]
+             }
+         };
+
+        // ======================================
+        // CHART OPTIONS
+        // ======================================
+         const commonChartOptionsBenchmark = {
+             responsive: true, maintainAspectRatio: false,
+             plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15, font: { size: 10 } } },
+                 tooltip: { backgroundColor: 'rgba(0, 0, 0, 0.8)', titleFont: { weight: 'bold', size: 12 }, bodyFont: { size: 11 }, padding: 8, cornerRadius: 4, displayColors: true, boxPadding: 4 }
+             },
+             scales: { x: { grid: { display: false }, ticks: { font: { size: 10 } } }, y: { grid: { color: '#e0e0e0', borderDash: [2, 3] }, ticks: { font: { size: 10 } } } },
+             animation: { duration: 400 }
+         };
+
+        const socialFollowersOptions = {
+            ...commonChartOptionsBenchmark,
+            scales: { y: { beginAtZero: true, title: { display: true, text: 'Follower (Migliaia)' } } },
+            plugins: { ...commonChartOptionsBenchmark.plugins, title: { display: true, text: 'Benchmark Follower Social', font:{size: 12} }, legend:{position:'top'} }
+        };
+
+        const ratingRadarOptions = {
+             ...commonChartOptionsBenchmark,
+             scales: { r: { angleLines: { display: true }, suggestedMin: 0, suggestedMax: 100, pointLabels: { font: { size: 10 } }, ticks: { backdropColor: 'transparent', stepSize: 20 } } },
+             plugins: { ...commonChartOptionsBenchmark.plugins, title: { display: true, text: 'Benchmark Qualitativo (Score 0-100)', font:{size: 12} }, legend: { position: 'top'} }
+        };
+
+        const digitalScoreOptions = {
+            ...commonChartOptionsBenchmark,
+            scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'Score (0-100)' } } },
+            plugins: { ...commonChartOptionsBenchmark.plugins, title: { display: true, text: 'Digital Score Complessivo', font:{size: 12} }, legend:{display:false} }
+        };
+
+        const uxRadarOptions = {
+             ...commonChartOptionsBenchmark,
+             scales: { r: { angleLines: { display: true }, suggestedMin: 0, suggestedMax: 100, pointLabels: { font: { size: 10 } }, ticks: { backdropColor: 'transparent', stepSize: 20 } } },
+             plugins: { ...commonChartOptionsBenchmark.plugins, title: { display: true, text: 'Benchmark User Experience (Score 0-100)', font:{size: 12} }, legend: { position: 'top'} }
+        };
+
+        const positioningOptions = {
+             ...commonChartOptionsBenchmark,
+             scales: {
+                 x: { type: 'linear', position: 'bottom', min: 0, max: 100, title: { display: true, text: 'Percezione Qualitativa (0-100)' } },
+                 y: { min: 0, max: 100, title: { display: true, text: 'Notorietà/Reach (0-100)' } }
+             },
+             plugins: { ...commonChartOptionsBenchmark.plugins, title: { display: true, text: 'Mappa di Posizionamento Brand', font:{size: 12} }, legend:{position: 'top'} }
+        };
+
+        // ======================================
+        // CHART INITIALIZATION
+        // ======================================
+        document.addEventListener('DOMContentLoaded', function() {
+             console.log("Initializing ZMOT Benchmark charts for Artigianato Pasella.");
+             initChart('socialFollowersChart', 'bar', chartDataBenchmark.socialFollowers, socialFollowersOptions);
+             initChart('ratingBenchmarkChart', 'radar', chartDataBenchmark.ratingBenchmark, ratingRadarOptions);
+             initChart('digitalScoreChart', 'bar', chartDataBenchmark.digitalScore, digitalScoreOptions);
+             initChart('userExperienceChart', 'radar', chartDataBenchmark.userExperience, uxRadarOptions);
+             initChart('positioningChart', 'scatter', chartDataBenchmark.positioning, positioningOptions);
+             console.log("ZMOT Benchmark charts initialization complete.");
+
+             // Set current year
+             const currentYear = new Date().getFullYear();
+             const sidebarYear = document.getElementById('currentYearSidebar');
+             const footerYear = document.getElementById('currentYearFooterReport');
+             if(sidebarYear) sidebarYear.textContent = currentYear;
+             if(footerYear) footerYear.textContent = currentYear;
+
+             // Placeholder logout
+             if (typeof logout !== 'function') { window.logout = function() { console.log("Logout"); } }
+         });
+
+    </script>
+
+</body>
+</html>

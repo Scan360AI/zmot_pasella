@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCAN360 - ZMOT: PR & Media | Artigianato Pasella</title> <!-- UPDATED TITLE -->
+    <!-- Librerie Esterne -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="css/print.css" rel="stylesheet" media="print"> <!-- Keep print CSS -->
+
+    <!-- Stili Incorporati (Copied from zmot-serp_new.html) -->
+    <style>
+        /* Copia/Incolla tutti gli stili CSS da zmot-serp_new.html qui */
+        .actions-card ol.action-list { padding-left: 0; list-style: none; }
+        .actions-card li { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;}
+        .actions-card li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+        .actions-card li strong { color: var(--primary); display: block; margin-bottom: 0.2rem;} /* Titolo azione */
+        .actions-card .priority-badge { font-size: 0.75rem; padding: 3px 8px; flex-shrink: 0; margin-left: 1rem;}
+         /* Stili V15 mantenuti e aggiustamenti */
+        .irp-visual-section { background: linear-gradient(135deg, var(--white) 0%, #f0f4f8 100%); border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); margin-bottom: 2.5rem; border: 1px solid var(--card-border); }
+        .irp-main-title { color: var(--primary); font-weight: 700; margin-bottom: 1.5rem; border-bottom: 2px solid var(--secondary); padding-bottom: 0.8rem; }
+        .irp-gradient-bar-container { margin-bottom: 0.5rem; }
+        .irp-gradient-bar { height: 20px; border-radius: 10px; overflow: hidden; position: relative; background: linear-gradient(to right, #d62246 0%, #d98c00 35%, #ffc107 55%, #4CAF50 80%, #191970 100%); border: 1px solid #bdc3c7; }
+        .irp-marker { position: absolute; top: -5px; bottom: -5px; width: 6px; background-color: #ffffff; border: 2px solid #343a40; transform: translateX(-50%); box-shadow: 0 0 8px rgba(0,0,0,0.5); z-index: 2; border-radius: 3px; }
+        .irp-marker::after { content: ''; position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 8px solid #343a40; }
+        .irp-scale-labels { font-size: 0.8rem; color: #6c757d; font-weight: 500; padding: 0 5px;}
+        .irp-score-circle { width: 140px; height: 140px; border-radius: 50%; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 0.5rem auto; box-shadow: 0 8px 20px rgba(0,0,0,0.25); background: var(--warning); border: 6px solid rgba(255, 255, 255, 0.5); }
+        .irp-score-circle.risk-low { background: radial-gradient(circle, #6bc571, #4CAF50); }
+        .irp-score-circle.risk-medium { background: radial-gradient(circle, #ffd54f, #FFC107); }
+        .irp-score-circle.risk-high { background: radial-gradient(circle, #f6685e, #F44336); }
+        .irp-score-value { font-size: 3.5rem; font-weight: 700; line-height: 1; text-shadow: 1px 1px 3px rgba(0,0,0,0.4);}
+        .irp-score-max { font-size: 0.9rem; opacity: 0.8; display: block; line-height: 1;}
+        .irp-category-text { font-size: 1.2rem; font-weight: 600; margin-top: 0.5rem; text-align: center; }
+        .irp-category-text .status-badge { font-size: 0.85rem; vertical-align: middle; margin-left: 8px;}
+
+        :root {
+            --primary: #191970; --secondary: #4a69bd; --success: #4CAF50;
+            --warning: #FFC107; --danger: #F44336; --info: #0dcaf0;
+            --light: #f8f9fa; --dark: #343a40; --white: #ffffff;
+            --text-primary: #212529; --text-secondary: #6c757d;
+            --card-bg: var(--white); --card-border: #dee2e6;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        html, body { height: 100%; overflow-x: hidden; font-family: 'Titillium Web', sans-serif; background-color: #f4f8fb; }
+        body { display: flex; }
+        .sidebar { width: 250px; background-color: var(--primary); color: #e0e0e0; position: fixed; top: 0; bottom: 0; left: 0; z-index: 1031; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1); transition: width 0.3s ease; overflow-y: auto; }
+        .main-wrapper { margin-left: 250px; width: calc(100% - 250px); display: flex; flex-direction: column; min-height: 100vh; position: relative; padding-top: 70px; /* Spazio per header */ }
+        .dashboard-header { background-color: var(--white); padding: 15px 30px; border-bottom: 1px solid var(--card-border); box-shadow: 0 2px 5px rgba(0,0,0,0.05); min-height: 70px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 250px; right: 0; z-index: 1030; } /* Adjusted left alignment for title */
+        .dashboard-container { padding: 30px; flex-grow: 1; width: 100%; }
+        .footer { background-color: var(--primary); color: rgba(255, 255, 255, 0.7); padding: 15px 30px; font-size: 0.85rem; margin-top: auto; flex-shrink: 0; width: 100%; }
+        .footer img { max-height: 20px; width: auto; filter: brightness(0) invert(1); opacity: 0.8; vertical-align: middle;}
+        .sidebar-header { padding: 10px 20px; margin-bottom: 20px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .sidebar-header img { max-height: 40px; } .sidebar-header h5 { color: var(--white); margin-top: 10px; font-size: 1.1rem; font-weight: 600; }
+        .sidebar-nav { list-style: none; padding: 0; } .sidebar-nav .nav-item { margin: 0; }
+        .sidebar-nav .nav-link { color: #e0e0e0; padding: 12px 20px; display: flex; align-items: center; font-size: 0.95rem; font-weight: 500; border-left: 4px solid transparent; transition: all 0.2s ease; }
+        .sidebar-nav .nav-link:hover { background-color: rgba(255, 255, 255, 0.05); color: var(--white); border-left-color: var(--warning); }
+        .sidebar-nav .nav-link.active { background-color: rgba(255, 255, 255, 0.1); color: var(--white); font-weight: 600; border-left-color: var(--white); }
+        .sidebar-nav .nav-link i { margin-right: 15px; width: 20px; text-align: center; font-size: 1rem; }
+        .sidebar-nav .nav-title { padding: 10px 20px; font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 15px; }
+        .sidebar-footer { margin-top: auto; padding: 15px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; text-align: left; }
+        .section-title { color: var(--primary); font-weight: 600; margin-top: 2.5rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--secondary); font-size: 1.75rem; display: flex; align-items: center; } .section-title i { margin-right: 10px; }
+        /* Adjusted .dashboard-card to match ZMOT usage */
+        .dashboard-card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); transition: all 0.3s ease; } /* Removed height: 100% */
+        .dashboard-card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.1); transform: translateY(-3px); }
+        .card-title-small { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .table { border: 1px solid var(--card-border); margin-bottom: 1rem; } .table thead th { background-color: var(--light); color: var(--primary); font-weight: 600; border-bottom: 2px solid var(--primary); font-size: 0.9rem; white-space: nowrap; } .table-hover tbody tr:hover { background-color: #eef2f7; } .table td, .table th { vertical-align: middle; padding: 0.6rem 0.75rem; font-size: 0.9rem;} .value-highlight { font-weight: 600; color: var(--primary); } .text-end { text-align: right !important;} .text-success { color: var(--success) !important; } .text-danger { color: var(--danger) !important; } .text-warning { color: var(--warning) !important; } .text-secondary { color: var(--text-secondary) !important; }
+        /* Using alert style for strength/weakness blocks */
+        .alert-box { padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid; } .alert-box h5 { margin-bottom: 10px; font-size: 1.1rem; font-weight: 600;} .alert-box ul { padding-left: 20px; margin-bottom: 0; font-size: 0.9rem;}
+        .alert-box.alert-success { background-color: #d1e7dd; border-color: #a3cfbb; color: #0a3622; }
+        .alert-box.alert-warning { background-color: #fff3cd; border-color: #ffda6a; color: #664d03; }
+        .alert-box.alert-danger { background-color: #f8d7da; border-color: #f1aeb5; color: #58151c; }
+        .alert-box.alert-info { background-color: #cff4fc; border-color: #9eeaf9; color: #055160; }
+        /* Simplified indicator styles */
+         .indicator { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; display: inline-block; color: white; }
+         .indicator-good { background-color: var(--success); }
+         .indicator-medium { background-color: var(--warning); color: var(--dark); }
+         .indicator-poor { background-color: var(--danger); }
+         /* End simplified indicator styles */
+        .status-badge { font-size: .75em; font-weight: 700; line-height: 1; padding: .35em .65em; border-radius: .375rem; color: white; display: inline-block; } .status-badge.bg-success { background-color: var(--success) !important; } .status-badge.bg-warning { background-color: var(--warning) !important; color: var(--dark) !important;} .status-badge.bg-danger { background-color: var(--danger) !important; } .status-badge.bg-info { background-color: var(--info) !important; color: var(--dark) !important;}
+        /* Adjusted chart container */
+        .chart-container { height: 300px; /* Default height, can override */ margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 8px; border: 1px solid var(--card-border); box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; }
+        .icon-circle { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: white; margin-right: 12px; font-size: 0.9rem; flex-shrink: 0; }
+        .bg-icon-success { background-color: var(--success); } .bg-icon-warning { background-color: var(--warning); } .bg-icon-danger { background-color: var(--danger); } .bg-icon-info { background-color: #4f6d7a; } .bg-icon-primary { background-color: var(--primary); } .bg-icon-secondary { background-color: var(--secondary); }
+        /* Simplified KPI Card - adapt if needed */
+        .kpi-card-simple { display: flex; flex-direction: column; padding: 1rem; background-color: var(--white); border-radius: 8px; box-shadow: var(--shadow); margin-bottom: 1.5rem; border: 1px solid var(--card-border); height: 100%; text-align: center; }
+        .kpi-card-simple .kpi-title { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+        .kpi-card-simple .kpi-value { font-size: 1.7rem; font-weight: 700; color: var(--dark); line-height: 1.2; margin-bottom: 3px; }
+        .kpi-card-simple .kpi-extra { font-size: 0.8rem; color: var(--text-secondary); }
+
+        .accordion-item { background-color: var(--white); border: 1px solid var(--card-border); border-radius: 8px !important; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05);} .accordion-header { }
+        .accordion-button { font-weight: 600; font-size: 1.1rem; color: var(--primary); background-color: #f8f9fa; box-shadow: none !important; border-radius: 7px 7px 0 0 !important;} /* Header Accordion leggermente colorato */
+        .accordion-button:not(.collapsed) { color: var(--white); background-color: var(--secondary); }
+        .accordion-button:focus { box-shadow: none; }
+        .accordion-button::after { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23191970'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); transition: transform .2s ease-in-out;}
+        .accordion-button:not(.collapsed)::after { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e"); transform: rotate(-180deg); }
+        .accordion-body { padding: 1.5rem; font-size: 0.9rem; } .accordion-body h6 { font-weight: 600; color: var(--secondary); margin-top: 1rem; margin-bottom: 0.5rem; } .accordion-body .table { margin-top: 1rem; }
+
+        /* Alert Cards (from V17) */
+        .alert-card { display: flex; align-items: flex-start; padding: 1rem; border-radius: 8px; border: 1px solid; background-color: #f8f9fa; margin-bottom: 1rem; box-shadow: var(--shadow); }
+        .alert-card .alert-icon { font-size: 1.8rem; margin-right: 1rem; flex-shrink: 0; width: 40px; text-align: center; }
+        .alert-card h5 { font-weight: 600; margin-bottom: 0.3rem; font-size: 1.1rem; }
+        .alert-card p { font-size: 0.9rem; margin-bottom: 0; line-height: 1.5; }
+        .alert-card.alert-danger { border-color: #f1aeb5; color: #58151c; background-color: #f8d7da; } .alert-card.alert-danger .alert-icon { color: #a94442; }
+        .alert-card.alert-warning { border-color: #ffda6a; color: #664d03; background-color: #fff3cd; } .alert-card.alert-warning .alert-icon { color: #8a6d3b; }
+        .alert-card.alert-info { border-color: #9eeaf9; color: #055160; background-color: #cff4fc; } .alert-card.alert-info .alert-icon { color: #31708f; }
+        .alert-card.alert-success { border-color: #a3cfbb; color: #0a3622; background-color: #d1e7dd; } .alert-card.alert-success .alert-icon { color: #3c763d; }
+
+        /* Executive Summary Card Style */
+        .executive-summary-card { background-color: #f0f4f8; border-left: 5px solid var(--primary); border-radius: 8px; box-shadow: var(--shadow); }
+        .executive-summary-card .card-body { padding: 1.5rem; }
+        /* Card title Modern */
+        .card-title-modern { font-size: 1rem; font-weight: 600; color: var(--primary); margin-bottom: 1rem; text-align: center; }
+        /* Chart Card for CDA */
+        .chart-card { padding-top: 1rem; /* Spazio per titolo */ }
+
+        /* Specific styles for PR page */
+        .awards-display { margin-top: 1rem; }
+        .award-item { display: flex; align-items: center; margin-bottom: 1rem; padding: 10px; background-color: #f8f9fa; border-radius: 5px; border: 1px solid var(--card-border); }
+        .award-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; margin-right: 15px; flex-shrink: 0; }
+        .award-icon.gold { background-color: var(--warning); }
+        .award-icon.silver { background-color: #adb5bd; }
+        .award-icon.bronze { background-color: #cd7f32; }
+        .award-info h6 { margin-bottom: 0.2rem; font-weight: 600; color: var(--primary); }
+        .award-info p { font-size: 0.85rem; margin-bottom: 0; color: var(--text-secondary); }
+        .award-info .award-year { font-size: 0.75rem; color: #6c757d; font-weight: bold; }
+        .trust-score-display { display: flex; align-items: center; background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid var(--card-border); }
+        .trust-badge { background-color: var(--success); color: white; padding: 10px 15px; border-radius: 8px; font-size: 1.5rem; font-weight: bold; margin-right: 15px; text-align: center; }
+        .trust-badge small { display: block; font-size: 0.8rem; }
+        .trust-badge .stars { font-size: 0.9rem; margin-top: 5px; }
+        .trust-info p { margin-bottom: 0; font-size: 0.9rem; }
+        .activity-distribution .activity-item { display: flex; align-items: center; margin-bottom: 1rem; }
+        .activity-distribution .activity-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; margin-right: 15px; font-size: 1.1rem; }
+        .activity-distribution .activity-details { flex-grow: 1; }
+        .activity-distribution .activity-details h6 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; display: flex; justify-content: space-between; }
+        .activity-distribution .activity-details .percentage { font-weight: normal; color: var(--text-secondary); }
+        .activity-distribution .progress { height: 6px; margin-bottom: 4px; }
+        .activity-distribution .activity-details p { font-size: 0.8rem; margin-bottom: 0; color: var(--text-secondary); }
+
+
+        @media (max-width: 991.98px) { .sidebar { width: 0; border: none; box-shadow: none;} .main-wrapper { margin-left: 0; width: 100%; padding-top: 56px; } .dashboard-header { left: 0; width: 100%; min-height: 56px; padding: 5px 15px;} .header-title h5 { font-size: 1rem;} .header-title p { font-size: 0.75rem;} .dashboard-container { padding: 15px;} .footer { padding: 10px 15px;} }
+        /* Stampa */
+         @media print { body { display: block; } .main-wrapper { margin-left: 0; width: 100%; padding-top: 0; } .no-print { display: none !important; } .report-section { page-break-inside: avoid; } /* Altri stili print.css */ }
+    </style>
+</head>
+<body>
+
+   <!-- Sidebar -->
+    <aside class="sidebar no-print">
+         <div class="sidebar-header">
+             <img src="assets/img/logo_placeholder_white.png" alt="Pasella Logo" style="max-height: 40px; filter: brightness(0) invert(1);">
+             <h5>Artigianato Pasella - ZMOT</h5>
+         </div>
+         <ul class="sidebar-nav flex-grow-1">
+             <!-- ZMOT Navigation -->
+             <li class="nav-item"> <a class="nav-link" href="zmot-main.html"> <i class="fas fa-home fa-fw"></i> Introduzione </a> </li>
+             <li class="nav-item"> <a class="nav-link" href="zmot-sentiment.html"> <i class="fas fa-star-half-alt fa-fw"></i> Sentiment </a> </li>
+             <li class="nav-item"> <a class="nav-link" href="zmot-social.html"> <i class="fas fa-users fa-fw"></i> Social Media </a> </li>
+             <li class="nav-item"> <a class="nav-link" href="zmot-website.html"> <i class="fas fa-globe fa-fw"></i> Sito Web </a> </li>
+             <li class="nav-item"> <a class="nav-link" href="zmot-serp.html"> <i class="fas fa-search fa-fw"></i> SERP </a> </li>
+             <li class="nav-item"> <a class="nav-link active" href="zmot-pr.html"> <i class="fas fa-newspaper fa-fw"></i> PR & Media </a> </li> <!-- Active Link -->
+             <li class="nav-item"> <a class="nav-link" href="zmot-benchmark.html"> <i class="fas fa-chart-bar fa-fw"></i> Benchmark </a> </li>
+             <li class="nav-item"> <a class="nav-link" href="zmot-strategy.html"> <i class="fas fa-lightbulb fa-fw"></i> Strategie </a> </li>
+         </ul>
+         <div class="sidebar-footer"> <small>SCAN360 © <span id="currentYearSidebar"></span> Kitzanos</small> </div>
+     </aside>
+
+    <!-- Contenuto Principale Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header Orizzontale -->
+        <header class="dashboard-header no-print">
+            <div class="header-title">
+                 <h5 class="mb-0">Artigianato Pasella - PR & Media</h5> <!-- UPDATED HEADER TITLE -->
+                 <p class="mb-0">ZMOT Analysis: Reputazione e Visibilità Mediatica | <span class="report-date">27 Marzo 2025</span></p> <!-- UPDATED SUBTITLE -->
+            </div>
+            <div class="header-controls d-flex align-items-center">
+                <button class="btn btn-sm btn-outline-secondary me-2 print-button" onclick="window.print()"> <i class="fas fa-print"></i> Stampa </button>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light border dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user-circle me-1"></i> Artigianato Pasella </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
+                        <li><button class="dropdown-item" type="button" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Header per Stampa -->
+        <div class="container d-none d-print-block mt-4 mb-4">
+            <h1 class="text-center mb-0"><span class="company-name">Artigianato Pasella</span></h1>
+            <p class="text-center mb-0">ZMOT - PR & Media: Reputazione e Visibilità Mediatica | <span class="report-date">27 Marzo 2025</span></p>
+            <hr>
+        </div>
+
+        <!-- Area Contenuto Dashboard ZMOT -->
+        <div class="dashboard-container">
+
+            <!-- === START CONTENT MIGRATION from old zmot-pr.html === -->
+
+            <!-- Introduzione PR & Media -->
+            <section id="pr-intro" class="report-section">
+                <div class="card executive-summary-card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3" style="color: var(--primary);"><i class="fas fa-newspaper text-warning me-2"></i>PR e Rilevanza Mediatica</h4>
+                        <p class="mb-0">Nello ZMOT, i potenziali clienti spesso cercano notizie e menzioni su testate giornalistiche per valutare l'autorevolezza di un'azienda artigiana. Questa sezione analizza la presenza di Artigianato Pasella sui media tradizionali e digitali, i riconoscimenti ottenuti, e la percezione del brand nei contesti editoriali e di settore.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Menzioni stampa e media coverage -->
+            <section id="media-coverage" class="report-section">
+                <h2 class="section-title"><i class="fas fa-newspaper me-2"></i>Menzioni Stampa e Media Coverage</h2>
+                <div class="dashboard-card mb-4">
+                     <h5 class="card-title-modern mb-4">Visibilità sulle Testate Giornalistiche</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                             <!-- Strength block -->
+                            <div class="alert alert-success alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-plus-circle me-2"></i>Media Coverage Positivo</h6>
+                                <p class="small">Ottima visibilità mediatica regionale e settoriale, riconosciuta come <strong>eccellenza</strong> dell'artigianato sardo:</p>
+                                <ul class="small">
+                                    <li><strong>Corriere dell'Economia</strong> (dicembre 2023): <em>"Artigianato Pasella, a Calangianus il punto di riferimento per l'artigianato sardo"</em> (focus su tradizione e innovazione).</li>
+                                    <li><strong>Turismo.it</strong>: <em>"La ceramica sarda di Domenico Pasella"</em> (produzione come eccellenza isolana).</li>
+                                    <li><strong>Consorzio Costa Smeralda</strong>: Menzionata come <em>"one of the best known craft shops"</em> in Sardegna.</li>
+                                    <li><strong>Blog turistici</strong>: Strictly Sardinia consiglia Pasella per souvenir autentici in sughero.</li>
+                                </ul>
+                                <p class="small mb-0">Copertura mediatica autorevole: <em>endorsement</em> prestigioso, conferma leadership regionale.</p>
+                            </div>
+                             <!-- Attention block -->
+                            <div class="alert alert-warning alert-box p-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-chart-line me-2"></i>Dati Chiave Citati dai Media</h6>
+                                <p class="small">Media riportano informazioni significative sull'azienda:</p>
+                                <ul class="small">
+                                    <li><strong>50+ anni di storia</strong> dal 1972</li>
+                                    <li><strong>15 punti vendita</strong> in Gallura</li>
+                                    <li>Laboratorio principale a <strong>Calangianus</strong></li>
+                                    <li>Produzione basata su <strong>ceramica, sughero e legno</strong></li>
+                                    <li>Selezione dei <strong>migliori artigiani</strong> per tessuti, coltelli, gioielli</li>
+                                    <li>Missione: <em>"promuovere l'essenza autentica dell'isola"</em></li>
+                                </ul>
+                                <p class="small mb-0">Conferma Pasella come punto di riferimento nell'artigianato artistico sardo.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <!-- Info block -->
+                             <div class="alert alert-info alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-file-alt me-2"></i>Citazioni Dirette e Interviste</h6>
+                                <p class="small">Elemento distintivo PR: <strong>interviste a Giovanni Pasella</strong> (responsabile Calangianus):</p>
+                                <ul class="small">
+                                    <li>Corriere dell'Economia: <em>"Abbiamo sempre una richiesta in crescita... prodotti unici e senza tempo"</em></li>
+                                    <li>Sottolinea apprezzamento per <strong>artigianato sardo</strong> nel periodo natalizio.</li>
+                                    <li>Evidenzia richieste <strong>internazionali</strong> crescenti.</li>
+                                    <li>Laura Morelli: intervista Giovanni nel progetto <em>"Italy Untapped: Cork artisans of Sardinia"</em>.</li>
+                                </ul>
+                                <p class="small mb-0">Presenza diretta del management nei media accredita autenticità e passione aziendale.</p>
+                           </div>
+                             <!-- Weakness block -->
+                            <div class="alert alert-danger alert-box p-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-minus-circle me-2"></i>Aree di Miglioramento PR</h6>
+                                <p class="small">Alcuni aspetti della copertura mediatica potrebbero essere potenziati:</p>
+                                <ul class="small">
+                                    <li><strong>Focus regionale</strong>: maggior parte menzioni su testate locali/settoriali.</li>
+                                    <li><strong>Assenza media nazionali</strong>: non emergono articoli su Corriere della Sera, Repubblica, etc.</li>
+                                    <li><strong>Pochi premi documentati</strong>: non risultano riconoscimenti ufficiali recenti.</li>
+                                    <li><strong>Eventi proprietari limitati</strong>: partecipazione a fiere ma pochi eventi organizzati.</li>
+                                </ul>
+                                <p class="small mb-0">Opportunità di espandere visibilità nazionale e internazionale con strategie PR mirate.</p>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Premi e Riconoscimenti -->
+            <section id="awards" class="report-section">
+                <h2 class="section-title"><i class="fas fa-award me-2"></i>Premi e Riconoscimenti</h2>
+                <div class="dashboard-card mb-4">
+                    <h5 class="card-title-modern mb-4">Riconoscimenti di Settore</h5>
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="awards-display">
+                                <div class="award-item">
+                                    <div class="award-icon gold"><i class="fas fa-trophy"></i></div>
+                                    <div class="award-info"><h6>Eccellenza Artigiana Regionale</h6> <p>Menzionata da Sardegna Artigianato come riferimento del settore</p> <span class="award-year">2023</span></div>
+                                </div>
+                                <div class="award-item">
+                                    <div class="award-icon silver"><i class="fas fa-medal"></i></div>
+                                    <div class="award-info"><h6>Tradizione Familiare</h6> <p>Tre generazioni di artigiani dal nonno di Giovanni</p> <span class="award-year">Dal 1972</span></div>
+                                </div>
+                                <div class="award-item">
+                                    <div class="award-icon bronze"><i class="fas fa-star"></i></div>
+                                    <div class="award-info"><h6>Partner Costa Smeralda</h6> <p>Raccomandato dal prestigioso Consorzio</p> <span class="award-year">2019-2024</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <!-- Strength block -->
+                            <div class="alert alert-success alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-trophy me-2"></i>Valore dei Riconoscimenti</h6>
+                                <p class="small">Riconoscimenti rafforzano immagine Pasella come:</p>
+                                <ul class="small">
+                                    <li>Azienda <strong>storica</strong> (50+ anni)</li>
+                                    <li>Custode della <strong>tradizione</strong> artigiana</li>
+                                    <li>Partner <strong>affidabile</strong> del turismo di qualità</li>
+                                </ul>
+                            </div>
+                            <!-- Attention block -->
+                           <div class="alert alert-warning alert-box p-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-info-circle me-2"></i>Recensioni "Eccellenti"</h6>
+                                <div class="trust-score-display">
+                                    <div class="trust-badge"> 5.0 <small>/5</small> <div class="stars"> <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> </div> </div>
+                                    <div class="trust-info"> <p><strong>100% raccomandazioni</strong><br>Status: <span class="badge bg-success">Eccellente</span></p> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PR e Campagne Comunicazione -->
+            <section id="pr-campaigns" class="report-section">
+                <h2 class="section-title"><i class="fas fa-bullhorn me-2"></i>PR e Campagne di Comunicazione</h2>
+                <div class="dashboard-card mb-4">
+                    <h5 class="card-title-modern mb-4">Strategie di Comunicazione e Media Relations</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                             <!-- Info block -->
+                           <div class="alert alert-info alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-comments me-2"></i>Comunicazione e Storytelling</h6>
+                                <p class="small">Pasella utilizza vari canali per raccontare la propria storia:</p>
+                                <ul class="small">
+                                    <li><strong>Blog aziendale</strong> con articoli su visite guidate e territorio.</li>
+                                    <li><strong>Interviste management</strong> (Giovanni Pasella) su testate locali.</li>
+                                    <li><strong>Contenuti web ricchi</strong> su tradizioni e tecniche artigianali.</li>
+                                    <li><strong>Citazioni dirette</strong> che evidenziano passione e competenza.</li>
+                                </ul>
+                                <p class="small mb-0">Comunicazione autentica mantiene Pasella presente nel dialogo culturale locale.</p>
+                            </div>
+                             <!-- Recommendation block -->
+                            <div class="alert alert-success alert-box p-3">
+                               <h6 class="d-flex align-items-center mb-2"><i class="fas fa-lightbulb me-2"></i>Punti di Forza Comunicativi</h6>
+                               <p class="small">L'azienda eccelle nel comunicare:</p>
+                               <ul class="small">
+                                   <li><strong>"Tradizione e innovazione"</strong> come filosofia aziendale.</li>
+                                   <li>Mix di <strong>esperienza e originalità</strong> degli artigiani.</li>
+                                   <li>Focus su <strong>"orgogliosamente fatto a mano in Sardegna"</strong>.</li>
+                                   <li>Valorizzazione <strong>giovani professionalità</strong> accanto ai maestri.</li>
+                                   <li>Apertura alla <strong>creatività senza limiti</strong> nel rispetto della tradizione.</li>
+                               </ul>
+                               <p class="small mb-0">Narrazione coerente rafforza identità unica e differenziante nel mercato.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                             <!-- Attention block -->
+                            <div class="alert alert-warning alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-hashtag me-2"></i>Temi e Messaggi Chiave</h6>
+                                <p class="small">Comunicazione Pasella ruota attorno a valori fondamentali:</p>
+                                <ul class="small">
+                                    <li><strong>Autenticità</strong>: ogni pezzo racconta la Sardegna.</li>
+                                    <li><strong>Sostenibilità</strong>: uso materiali naturali (sughero ecologico).</li>
+                                    <li><strong>Territorialità</strong>: forte legame con Gallura e tradizioni locali.</li>
+                                    <li><strong>Qualità artigianale</strong>: lavorazione manuale e cura dei dettagli.</li>
+                                </ul>
+                                <p class="small mb-0">Messaggi coerenti costruiscono percezione di eccellenza e affidabilità.</p>
+                            </div>
+                            <!-- Info block on collaborations -->
+                            <div class="alert alert-info alert-box p-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-handshake me-2"></i>Collaborazioni e Partnership</h6>
+                                <p class="small">Relazioni strategiche amplificano visibilità:</p>
+                                <ul class="small">
+                                    <li><strong>Consorzio Costa Smeralda:</strong> endorsement prestigioso per turismo luxury.</li>
+                                    <li><strong>Blog turistici internazionali:</strong> menzioni su Strictly Sardinia e altri.</li>
+                                    <li><strong>Eventi locali:</strong> fornitore premi per manifestazioni (es. Carnevale Tempio).</li>
+                                </ul>
+                                <p class="small mb-0">Network di relazioni rafforza posizionamento come riferimento culturale e commerciale.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Eventi e Iniziative -->
+            <section id="events" class="report-section">
+                 <h2 class="section-title"><i class="fas fa-calendar-alt me-2"></i>Eventi e Iniziative</h2>
+                 <div class="dashboard-card mb-4">
+                     <h5 class="card-title-modern mb-4">Partecipazione e Organizzazione di Eventi</h5>
+                    <div class="row">
+                         <div class="col-lg-6">
+                            <div class="alert alert-info alert-box p-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-info-circle me-2"></i>Attività Eventi</h6>
+                                <p class="small">L'azienda partecipa attivamente a eventi del territorio e iniziative culturali:</p>
+                                <ul class="small">
+                                    <li><strong>Visite guidate al laboratorio</strong>: esperienza diretta per turisti e appassionati.</li>
+                                    <li>Partecipazione a <strong>fiere regionali</strong> e mercati artigianali locali.</li>
+                                    <li>Collaborazioni con <strong>enti turistici</strong> per promozione territorio.</li>
+                                    <li>Fornitore per <strong>eventi culturali</strong> (premi, omaggi istituzionali).</li>
+                                </ul>
+                           </div>
+                        </div>
+                         <div class="col-lg-6">
+                             <div class="activity-distribution p-3 bg-light rounded border">
+                                 <h6 class="d-flex align-items-center mb-3"><i class="fas fa-chart-pie me-2"></i>Tipologie Attività PR (Stima)</h6>
+                                 <div class="activity-item">
+                                     <div class="activity-icon" style="background-color: #4D8C57;"><i class="fas fa-newspaper"></i></div>
+                                     <div class="activity-details"> <h6>Media & Stampa <span class="percentage">40%</span></h6> <div class="progress"><div class="progress-bar" role="progressbar" style="width: 40%; background-color: #4D8C57;"></div></div> <p>Articoli, interviste, menzioni</p> </div>
+                                 </div>
+                                 <div class="activity-item">
+                                     <div class="activity-icon" style="background-color: #191970;"><i class="fas fa-users"></i></div>
+                                     <div class="activity-details"> <h6>Visite e Esperienze <span class="percentage">30%</span></h6> <div class="progress"><div class="progress-bar" role="progressbar" style="width: 30%; background-color: #191970;"></div></div> <p>Tour laboratorio, workshop</p> </div>
+                                 </div>
+                                 <div class="activity-item">
+                                     <div class="activity-icon" style="background-color: #D98C00;"><i class="fas fa-handshake"></i></div>
+                                     <div class="activity-details"> <h6>Partnership locali <span class="percentage">20%</span></h6> <div class="progress"><div class="progress-bar" role="progressbar" style="width: 20%; background-color: #D98C00;"></div></div> <p>Costa Smeralda, eventi</p> </div>
+                                 </div>
+                                 <div class="activity-item">
+                                     <div class="activity-icon" style="background-color: #D62246;"><i class="fas fa-globe"></i></div>
+                                     <div class="activity-details"> <h6>PR Digitale <span class="percentage">10%</span></h6> <div class="progress"><div class="progress-bar" role="progressbar" style="width: 10%; background-color: #D62246;"></div></div> <p>Blog, social media</p> </div>
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Passaparola e Community -->
+            <section id="community-buzz" class="report-section">
+                <h2 class="section-title"><i class="fas fa-comments me-2"></i>Passaparola e Buzz Online</h2>
+                <div class="dashboard-card mb-4">
+                    <h5 class="card-title-modern mb-4">Menzioni Spontanee e Testimonianze</h5>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- Info block -->
+                             <div class="alert alert-info alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-users me-2"></i>Conversazioni online su Pasella</h6>
+                                <p class="small">Presenza positiva nel passaparola digitale:</p>
+                                <ul class="small">
+                                    <li><strong>Blog turistici internazionali:</strong> Strictly Sardinia raccomanda Pasella come uno dei migliori negozi di sughero.</li>
+                                    <li><strong>Social media:</strong> Clienti condividono foto prodotti e esperienze positive.</li>
+                                    <li><strong>Forum viaggi:</strong> Menzioni come tappa consigliata per souvenir autentici.</li>
+                                    <li><strong>Guide locali:</strong> Citata in contesti turistici come eccellenza artigiana.</li>
+                                </ul>
+                                <p class="small mb-0">Sentiment spontaneo molto positivo: <em>"prodotti unici e di qualità"</em> - percezione di autenticità consolidata.</p>
+                            </div>
+                            <!-- Strength block -->
+                            <div class="alert alert-success alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-language me-2"></i>Reputazione nel Settore</h6>
+                                <p class="small">Aspetti notevoli del posizionamento reputazionale:</p>
+                                <ul class="small">
+                                    <li>Riconosciuta come <em>"punto di riferimento"</em> per artigianato sardo.</li>
+                                    <li>Citata come <em>"one of the best known craft shops"</em> in Sardegna.</li>
+                                    <li>50+ anni di storia creano <strong>trust immediato</strong>.</li>
+                                    <li>Presenza in <strong>15 punti vendita</strong> conferma solidità aziendale.</li>
+                                </ul>
+                                <p class="small mb-0">Leadership reputazionale nel settore difficilmente replicabile dai competitor.</p>
+                            </div>
+                             <!-- Attention block -->
+                           <div class="alert alert-warning alert-box p-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-chart-line me-2"></i>Impatto PR vs Competitor</h6>
+                                <p class="small">Confronto presenza mediatica nel settore:</p>
+                                <ul class="small">
+                                    <li><strong>Pasella:</strong> Copertura mediatica regionale solida, endorsement prestigiosi.</li>
+                                    <li><strong>Ajò Kose:</strong> Minore presenza su testate, focus più commerciale.</li>
+                                    <li><strong>Walter Usai:</strong> PR di nicchia su riviste design, meno mainstream.</li>
+                                    <li><strong>Ferraro:</strong> Buona PR ma focalizzata solo su gioielli.</li>
+                                    <li><strong>Artemest:</strong> PR internazionale ma non specifica Sardegna.</li>
+                                </ul>
+                                <p class="small mb-0">Pasella mantiene leadership PR nel contesto artigianato sardo multi-categoria.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sintesi e Raccomandazioni -->
+            <section id="pr-summary" class="report-section">
+                <h2 class="section-title"><i class="fas fa-chart-pie me-2"></i>Sintesi PR & Media</h2>
+                <div class="dashboard-card mb-4">
+                    <h5 class="card-title-modern mb-4">Valutazione Complessiva</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                             <!-- Info block -->
+                           <div class="alert alert-info alert-box p-3 mb-3">
+                               <h6 class="d-flex align-items-center mb-2"><i class="fas fa-balance-scale me-2"></i>Media Relations Score: 82/100</h6>
+                               <p class="small">Presenza mediatica Pasella solida e autorevole:</p>
+                               <div class="table-responsive">
+                                   <table class="table table-sm mb-0">
+                                       <thead class="table-light"><tr><th>Dimensione</th> <th class="text-end">Score</th> <th class="text-end">Valutazione</th></tr></thead>
+                                       <tbody>
+                                           <tr><td>Copertura testate regionali</td> <td class="text-end">90</td> <td class="text-end"><span class="indicator indicator-good">Eccellente</span></td></tr>
+                                           <tr><td>Endorsement prestigiosi</td> <td class="text-end">85</td> <td class="text-end"><span class="indicator indicator-good">Ottimo</span></td></tr>
+                                           <tr><td>Storytelling aziendale</td> <td class="text-end">88</td> <td class="text-end"><span class="indicator indicator-good">Ottimo</span></td></tr>
+                                           <tr><td>Copertura nazionale</td> <td class="text-end">65</td> <td class="text-end"><span class="indicator indicator-medium">Discreto</span></td></tr>
+                                           <tr><td>Eventi proprietari</td> <td class="text-end">75</td> <td class="text-end"><span class="indicator indicator-good">Buono</span></td></tr>
+                                           <tr><td>Passaparola/testimonianze</td> <td class="text-end">95</td> <td class="text-end"><span class="indicator indicator-good">Eccellente</span></td></tr>
+                                           <tr class="table-primary fw-bold"><td>PR Score complessivo</td> <td class="text-end">82</td> <td class="text-end"><span class="indicator indicator-good">Molto Buono</span></td></tr>
+                                       </tbody>
+                                   </table>
+                               </div>
+                           </div>
+                        </div>
+                        <div class="col-lg-6">
+                             <!-- Strength block -->
+                           <div class="alert alert-success alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-plus-circle me-2"></i>Punti di Forza</h6>
+                                <ul class="small">
+                                    <li><strong>Heritage 50ennale</strong> come asset reputazionale.</li>
+                                    <li><strong>Endorsement Costa Smeralda</strong>: prestigio turistico luxury.</li>
+                                    <li><strong>Storytelling autentico</strong> con citazioni dirette management.</li>
+                                    <li><strong>Recensioni perfette</strong> (5.0/5) rafforzano fiducia.</li>
+                                    <li><strong>Menzioni blog internazionali</strong> ampliano reach.</li>
+                                </ul>
+                            </div>
+                             <!-- Weakness block -->
+                            <div class="alert alert-danger alert-box p-3 mb-3">
+                                <h6 class="d-flex align-items-center mb-2"><i class="fas fa-minus-circle me-2"></i>Aree di Miglioramento</h6>
+                                <ul class="small">
+                                    <li><strong>Visibilità nazionale limitata</strong>: focus su media regionali.</li>
+                                    <li><strong>Assenza premi recenti</strong> documentati pubblicamente.</li>
+                                    <li><strong>PR digitale sottoutilizzata</strong>: potenziale influencer marketing.</li>
+                                    <li><strong>Eventi proprietari</strong> da sviluppare (es. open day annuale).</li>
+                                </ul>
+                            </div>
+                             <!-- Recommendation block -->
+                           <div class="alert alert-success alert-box p-3">
+                               <h6 class="d-flex align-items-center mb-2"><i class="fas fa-lightbulb me-2"></i>Opportunità chiave</h6>
+                               <ol class="small">
+                                   <li><strong>Campagna PR nazionale</strong>: comunicati su testate mainstream.</li>
+                                   <li><strong>Candidatura premi settore</strong>: Maestro Artigiano, premi design.</li>
+                                   <li><strong>Partnership influencer</strong> travel e lifestyle sostenibile.</li>
+                                   <li><strong>Eventi signature</strong>: "Pasella Craft Week" annuale.</li>
+                                   <li><strong>Storytelling video</strong>: mini-documentari su artigiani.</li>
+                               </ol>
+                           </div>
+                        </div>
+                    </div>
+                     <!-- Attention block -->
+                    <div class="alert alert-warning alert-box p-3 mt-4">
+                        <h6 class="d-flex align-items-center mb-2"><i class="fas fa-info-circle me-2"></i>Impatto ZMOT</h6>
+                        <p class="small">Posizionamento mediatico Pasella genera impatto molto positivo sullo ZMOT. Storia 50ennale e menzioni autorevoli (Corriere Economia, Costa Smeralda) creano contesto di fiducia immediata.</p>
+                        <p class="small">Cliente ZMOT trova articoli che definiscono Pasella "punto di riferimento" e "one of the best known craft shops". Recensioni perfette e assenza critiche completano quadro rassicurante.</p>
+                        <p class="small mb-0">Vs competitor, Pasella gode di heritage superiore e endorsement più prestigiosi. Combinazione storia-qualità-visibilità rende Pasella scelta naturale per chi cerca autentico artigianato sardo.</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- === END CONTENT MIGRATION === -->
+
+        </div> <!-- /dashboard-container -->
+
+        <!-- Footer Standard -->
+        <footer class="footer no-print">
+            <div class="container-fluid px-4">
+                 <div class="row align-items-center">
+                     <div class="col-md-6 text-center text-md-start mb-2 mb-md-0"> SCAN360 © <span id="currentYearFooterReport"></span> </div>
+                     <div class="col-md-6 text-center text-md-end"> Powered by <a href="http://www.kitzanos.com" target="_blank" class="text-white fw-bold">Kitzanos Lab</a>
+                         <img src="assets/img/logo_kitzanos.png" alt="Kitzanos Logo" class="ms-2" style="height: 20px; vertical-align: middle;">
+                    </div>
+                 </div>
+             </div>
+        </footer>
+
+    </div> <!-- /main-wrapper -->
+
+    <!-- Script JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <!-- ### START EMBEDDED JAVASCRIPT ### -->
+    <script>
+        // No charts specific to this page in the original file.
+        // Adding standard scripts for year and logout.
+
+        document.addEventListener('DOMContentLoaded', function() {
+             console.log("ZMOT PR & Media page loaded.");
+
+             // Set current year
+             const currentYear = new Date().getFullYear();
+             const sidebarYear = document.getElementById('currentYearSidebar');
+             const footerYear = document.getElementById('currentYearFooterReport');
+             if(sidebarYear) sidebarYear.textContent = currentYear;
+             if(footerYear) footerYear.textContent = currentYear;
+
+             // Placeholder logout
+             if (typeof logout !== 'function') {
+                 window.logout = function() {
+                    console.log("Logout action triggered (placeholder)");
+                    // window.location.href = 'login-page.html';
+                }
+             }
+              // Placeholder print
+             if (typeof printDocument !== 'function') {
+                 window.printDocument = function() {
+                    window.print();
+                 }
+             }
+         });
+
+    </script>
+    <!-- ### END EMBEDDED JAVASCRIPT ### -->
+
+</body>
+</html>
